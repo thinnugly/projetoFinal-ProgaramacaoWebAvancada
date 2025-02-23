@@ -1,0 +1,1829 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "TASK MANAGEMENT API",
+        "description": "Um sistema de gestão de tarefas, utilizadores, comentários e notificações, para facilitar o acompanhamento de atividades no ambiente organizacional, garantindo que os utilizadores estejam informados sobre alterações importantes, como atribuição de tarefas, alterações no estado das mesmas ou adição de comentários.",
+        "termsOfService": "http://localhost:3000/terms",
+        "contact": {
+            "name": "API Support",
+            "url": "https://github.com/thinnugly",
+            "email": "renatomuiambo24@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000",
+            "description": "Development server"
+        }
+    ],
+    "paths": {
+        "/auth": {
+            "post": {
+                "summary": "Realiza o login do usuário e retorna o token",
+                "description": "Realiza o login com as credenciais do usuário e retorna um token JWT.",
+                "tags": [
+                    "Auth"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "description": "Nome de usuário"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "description": "Senha do usuário"
+                                    }
+                                },
+                                "required": [
+                                    "username",
+                                    "password"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login bem-sucedido",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Login bem-sucedido"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "jwt_token_aqui"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro de validação de dados"
+                    },
+                    "401": {
+                        "description": "Credenciais inválidas"
+                    }
+                }
+            }
+        },
+        "/animals": {
+            "get": {
+                "summary": "Busca animais com base nos parâmetros de consulta",
+                "description": "Este endpoint permite buscar animais com base nos parâmetros de consulta e popula o campo de comentários com as informações do usuário associado.",
+                "tags": [
+                    "Animais"
+                ],
+                "security": [
+                    {
+                        "AuthorizationHeader": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Animais encontrados com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Animais encontrados com sucesso"
+                                        },
+                                        "body": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "_id": {
+                                                        "type": "string",
+                                                        "example": "60b2b8f3f4f9c29a12aaf5f8"
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Leão"
+                                                    },
+                                                    "species": {
+                                                        "type": "string",
+                                                        "example": "Felidae"
+                                                    },
+                                                    "age": {
+                                                        "type": "integer",
+                                                        "example": 5
+                                                    },
+                                                    "location": {
+                                                        "type": "string",
+                                                        "example": "Moçambique"
+                                                    },
+                                                    "comments": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "user": {
+                                                                    "type": "object",
+                                                                    "properties": {
+                                                                        "name": {
+                                                                            "type": "string",
+                                                                            "example": "João Silva"
+                                                                        }
+                                                                    }
+                                                                },
+                                                                "comment": {
+                                                                    "type": "string",
+                                                                    "example": "Este animal é impressionante!"
+                                                                },
+                                                                "createdAt": {
+                                                                    "type": "string",
+                                                                    "format": "date-time",
+                                                                    "example": "2024-01-01T12:00:00Z"
+                                                                }
+                                                            }
+                                                        }
+                                                    },
+                                                    "createdAt": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-01-01T12:00:00Z"
+                                                    },
+                                                    "updatedAt": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-01-01T12:00:00Z"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nenhum animal encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Nenhum animal encontrado"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno no servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Erro ao buscar animais."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sponsors": {
+            "get": {
+                "summary": "Obtém a lista de patrocinadores",
+                "description": "Recupera a lista de patrocinadores do banco de dados.",
+                "tags": [
+                    "Patrocinadores"
+                ],
+                "security": [
+                    {
+                        "AuthorizationHeader": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de patrocinadores obtida com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Patrocinadores encontrados"
+                                        },
+                                        "body": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "example": "5f4e3e5e56f5c9bdb3a3f7b8"
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Patrocinador Exemplo"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro ao recuperar patrocinadores"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Cria um novo patrocinador",
+                "description": "Este endpoint permite criar um novo patrocinador na base de dados.",
+                "tags": [
+                    "Patrocinadores"
+                ],
+                "security": [
+                    {
+                        "AuthorizationHeader": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Nome do patrocinador"
+                                    },
+                                    "organization": {
+                                        "type": "string",
+                                        "description": "Organização do patrocinador"
+                                    },
+                                    "sponsorship_value": {
+                                        "type": "number",
+                                        "description": "Valor do patrocínio",
+                                        "example": 10000.0
+                                    },
+                                    "contact": {
+                                        "type": "string",
+                                        "description": "Número de contato do patrocinador",
+                                        "example": "987654321"
+                                    },
+                                    "notes": {
+                                        "type": "string",
+                                        "description": "Notas adicionais sobre o patrocinador",
+                                        "example": "Patrocinador premium"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "organization",
+                                    "sponsorship_value",
+                                    "contact"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Patrocinador criado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Patrocinador criado com sucesso"
+                                        },
+                                        "body": {
+                                            "type": "object",
+                                            "properties": {
+                                                "_id": {
+                                                    "type": "string",
+                                                    "example": "60b2b8f3f4f9c29a12aaf5f6"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Patrocinador Exemplo"
+                                                },
+                                                "organization": {
+                                                    "type": "string",
+                                                    "example": "Organização Exemplo"
+                                                },
+                                                "sponsorship_value": {
+                                                    "type": "number",
+                                                    "example": 10000.0
+                                                },
+                                                "contact": {
+                                                    "type": "string",
+                                                    "example": "987654321"
+                                                },
+                                                "notes": {
+                                                    "type": "string",
+                                                    "example": "Patrocinador premium"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro de validação de dados"
+                    },
+                    "409": {
+                        "description": "Já existe um patrocinador com este nome"
+                    },
+                    "500": {
+                        "description": "Erro ao criar patrocinador"
+                    }
+                }
+            }
+        },
+        "/sponsors/{id}": {
+            "put": {
+                "summary": "Atualiza um patrocinador existente",
+                "description": "Este endpoint permite atualizar os detalhes de um patrocinador já existente.",
+                "tags": [
+                    "Patrocinadores"
+                ],
+                "security": [
+                    {
+                        "AuthorizationHeader": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "ID do patrocinador a ser atualizado",
+                        "schema": {
+                            "type": "string",
+                            "example": "60b2b8f3f4f9c29a12aaf5f6"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Nome do patrocinador",
+                                        "example": "Novo Patrocinador"
+                                    },
+                                    "organization": {
+                                        "type": "string",
+                                        "description": "Organização do patrocinador",
+                                        "example": "Nova Organização"
+                                    },
+                                    "sponsorship_value": {
+                                        "type": "number",
+                                        "description": "Valor do patrocínio",
+                                        "example": 12000.0
+                                    },
+                                    "contact": {
+                                        "type": "string",
+                                        "description": "Número de contato do patrocinador",
+                                        "example": "987654321"
+                                    },
+                                    "notes": {
+                                        "type": "string",
+                                        "description": "Notas adicionais sobre o patrocinador",
+                                        "example": "Patrocinador premium"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Patrocinador atualizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Patrocinador atualizado com sucesso"
+                                        },
+                                        "body": {
+                                            "type": "object",
+                                            "properties": {
+                                                "_id": {
+                                                    "type": "string",
+                                                    "example": "60b2b8f3f4f9c29a12aaf5f6"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Novo Patrocinador"
+                                                },
+                                                "organization": {
+                                                    "type": "string",
+                                                    "example": "Nova Organização"
+                                                },
+                                                "sponsorship_value": {
+                                                    "type": "number",
+                                                    "example": 12000.0
+                                                },
+                                                "contact": {
+                                                    "type": "string",
+                                                    "example": "987654321"
+                                                },
+                                                "notes": {
+                                                    "type": "string",
+                                                    "example": "Patrocinador premium"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Já existe um patrocinador com este nome"
+                    },
+                    "404": {
+                        "description": "Patrocinador não encontrado"
+                    },
+                    "500": {
+                        "description": "Erro ao atualizar patrocinador"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Exclui um patrocinador",
+                "description": "Este endpoint permite excluir um patrocinador, caso não esteja associado a nenhum animal.",
+                "tags": [
+                    "Patrocinadores"
+                ],
+                "security": [
+                    {
+                        "AuthorizationHeader": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "ID do patrocinador a ser excluído",
+                        "schema": {
+                            "type": "string",
+                            "example": "60b2b8f3f4f9c29a12aaf5f6"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Patrocinador excluído com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Patrocinador excluído com sucesso"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Este patrocinador ainda está associado a um animal e não pode ser excluído"
+                    },
+                    "404": {
+                        "description": "Patrocinador não encontrado"
+                    },
+                    "500": {
+                        "description": "Erro ao excluir patrocinador"
+                    }
+                }
+            }
+        },
+        "/experts": {
+            "get": {
+                "summary": "Obtém a lista de especialistas",
+                "description": "Recupera a lista de especialistas do banco de dados.",
+                "tags": [
+                    "Especialistas"
+                ],
+                "security": [
+                    {
+                        "AuthorizationHeader": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de especialistas obtida com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Especialistas encontrados"
+                                        },
+                                        "body": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "example": "5f4e3e5e56f5c9bdb3a3f7b8"
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Dr. João Silva"
+                                                    },
+                                                    "institution": {
+                                                        "type": "string",
+                                                        "example": "Universidade Exemplo"
+                                                    },
+                                                    "areas_expertise": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string",
+                                                            "example": "Inteligência Artificial"
+                                                        }
+                                                    },
+                                                    "contacto": {
+                                                        "type": "string",
+                                                        "example": "987654321"
+                                                    },
+                                                    "notes": {
+                                                        "type": "string",
+                                                        "example": "Especialista em aprendizado de máquina"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro ao recuperar especialistas"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Cria um novo especialista",
+                "description": "Este endpoint permite criar um novo especialista na base de dados.",
+                "tags": [
+                    "Especialistas"
+                ],
+                "security": [
+                    {
+                        "AuthorizationHeader": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Nome do especialista",
+                                        "example": "João Silva"
+                                    },
+                                    "institution": {
+                                        "type": "string",
+                                        "description": "Instituição do especialista",
+                                        "example": "Universidade de Moçambique"
+                                    },
+                                    "areas_expertise": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "description": "Áreas de especialização do especialista",
+                                        "example": [
+                                            "Inteligência Artificial",
+                                            "Ciência de Dados"
+                                        ]
+                                    },
+                                    "contacto": {
+                                        "type": "string",
+                                        "description": "Número de contato do especialista",
+                                        "example": "987654321"
+                                    },
+                                    "notes": {
+                                        "type": "string",
+                                        "description": "Notas adicionais sobre o especialista",
+                                        "example": "Especialista renomado em Machine Learning"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "institution",
+                                    "areas_expertise",
+                                    "contacto"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Especialista criado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "http": {
+                                            "type": "integer",
+                                            "example": 201
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Especialista criado com sucesso"
+                                        },
+                                        "body": {
+                                            "type": "object",
+                                            "properties": {
+                                                "_id": {
+                                                    "type": "string",
+                                                    "example": "60b2b8f3f4f9c29a12aaf5f6"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "João Silva"
+                                                },
+                                                "institution": {
+                                                    "type": "string",
+                                                    "example": "Universidade de Moçambique"
+                                                },
+                                                "areas_expertise": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    },
+                                                    "example": [
+                                                        "Inteligência Artificial",
+                                                        "Ciência de Dados"
+                                                    ]
+                                                },
+                                                "contacto": {
+                                                    "type": "string",
+                                                    "example": "987654321"
+                                                },
+                                                "notes": {
+                                                    "type": "string",
+                                                    "example": "Especialista renomado em Machine Learning"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Já existe um especialista com este nome",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "http": {
+                                            "type": "integer",
+                                            "example": 409
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Já existe um especialista com este nome."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "406": {
+                        "description": "Erro de validação de dados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "msg": {
+                                                "type": "string",
+                                                "example": "Nome é obrigatório"
+                                            },
+                                            "param": {
+                                                "type": "string",
+                                                "example": "name"
+                                            },
+                                            "location": {
+                                                "type": "string",
+                                                "example": "body"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro ao criar especialista",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "http": {
+                                            "type": "integer",
+                                            "example": 500
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Erro ao criar especialista."
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Detalhes do erro interno."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/experts/{id}": {
+            "put": {
+                "summary": "Atualiza um especialista existente",
+                "description": "Este endpoint permite atualizar os detalhes de um especialista já existente.",
+                "tags": [
+                    "Especialistas"
+                ],
+                "security": [
+                    {
+                        "AuthorizationHeader": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "ID do especialista a ser atualizado",
+                        "schema": {
+                            "type": "string",
+                            "example": "60b2b8f3f4f9c29a12aaf5f6"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Nome do especialista",
+                                        "example": "Novo Especialista"
+                                    },
+                                    "expertise": {
+                                        "type": "string",
+                                        "description": "Área de especialização",
+                                        "example": "Medicina Veterinária"
+                                    },
+                                    "contact": {
+                                        "type": "string",
+                                        "description": "Número de contato",
+                                        "example": "987654321"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Especialista atualizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Especialista atualizado com sucesso"
+                                        },
+                                        "body": {
+                                            "type": "object",
+                                            "properties": {
+                                                "_id": {
+                                                    "type": "string",
+                                                    "example": "60b2b8f3f4f9c29a12aaf5f6"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Novo Especialista"
+                                                },
+                                                "expertise": {
+                                                    "type": "string",
+                                                    "example": "Medicina Veterinária"
+                                                },
+                                                "contact": {
+                                                    "type": "string",
+                                                    "example": "987654321"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Já existe um especialista com este nome"
+                    },
+                    "404": {
+                        "description": "Especialista não encontrado"
+                    },
+                    "500": {
+                        "description": "Erro ao atualizar especialista"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Exclui um especialista",
+                "description": "Este endpoint permite excluir um especialista, caso não esteja associado a nenhum animal.",
+                "tags": [
+                    "Especialistas"
+                ],
+                "security": [
+                    {
+                        "AuthorizationHeader": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "ID do especialista a ser excluído",
+                        "schema": {
+                            "type": "string",
+                            "example": "60b2b8f3f4f9c29a12aaf5f6"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Especialista excluído com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Especialista excluído com sucesso"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Este especialista ainda está associado a um animal e não pode ser excluído"
+                    },
+                    "404": {
+                        "description": "Especialista não encontrado"
+                    },
+                    "500": {
+                        "description": "Erro ao excluir especialista"
+                    }
+                }
+            }
+        },
+        "/sponsorsanimal": {
+            "get": {
+                "summary": "Busca associações entre patrocinadores e animais",
+                "description": "Este endpoint permite buscar associações entre patrocinadores e animais com base nos parâmetros de consulta.",
+                "tags": [
+                    "Associações: Animais e Patrocinadores"
+                ],
+                "security": [
+                    {
+                        "AuthorizationHeader": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Associações encontradas com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Associações encontradas com sucesso"
+                                        },
+                                        "body": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "_id": {
+                                                        "type": "string",
+                                                        "example": "60b2b8f3f4f9c29a12aaf5f8"
+                                                    },
+                                                    "sponsor_id": {
+                                                        "type": "string",
+                                                        "example": "60b2b8f3f4f9c29a12aaf5f6"
+                                                    },
+                                                    "animal_id": {
+                                                        "type": "string",
+                                                        "example": "60b2b8f3f4f9c29a12aaf5f7"
+                                                    },
+                                                    "notes": {
+                                                        "type": "string",
+                                                        "example": "Patrocínio especial para cuidados médicos"
+                                                    },
+                                                    "createdAt": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-01-01T12:00:00Z"
+                                                    },
+                                                    "updatedAt": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-01-01T12:00:00Z"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nenhuma associação encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Nenhuma associação encontrada"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno no servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Erro ao buscar associações."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Cria uma associação entre patrocinador e animal",
+                "description": "Este endpoint permite criar uma associação entre um patrocinador e um animal.",
+                "tags": [
+                    "Associações: Animais e Patrocinadores"
+                ],
+                "security": [
+                    {
+                        "AuthorizationHeader": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "sponsor_id": {
+                                        "type": "string",
+                                        "description": "ID do patrocinador a ser associado",
+                                        "example": "60b2b8f3f4f9c29a12aaf5f6"
+                                    },
+                                    "animal_id": {
+                                        "type": "string",
+                                        "description": "ID do animal a ser associado",
+                                        "example": "60b2b8f3f4f9c29a12aaf5f7"
+                                    },
+                                    "notes": {
+                                        "type": "string",
+                                        "description": "Notas adicionais sobre a associação",
+                                        "example": "Patrocínio especial para cuidados médicos"
+                                    }
+                                },
+                                "required": [
+                                    "sponsor_id",
+                                    "animal_id"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Associação criada com sucesso",
+                        "headers": {
+                            "location": {
+                                "description": "URL do recurso criado",
+                                "schema": {
+                                    "type": "string",
+                                    "example": "/sponsorsanimal/60b2b8f3f4f9c29a12aaf5f8"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Associação criada com sucesso"
+                                        },
+                                        "body": {
+                                            "type": "object",
+                                            "properties": {
+                                                "_id": {
+                                                    "type": "string",
+                                                    "example": "60b2b8f3f4f9c29a12aaf5f8"
+                                                },
+                                                "sponsor_id": {
+                                                    "type": "string",
+                                                    "example": "60b2b8f3f4f9c29a12aaf5f6"
+                                                },
+                                                "animal_id": {
+                                                    "type": "string",
+                                                    "example": "60b2b8f3f4f9c29a12aaf5f7"
+                                                },
+                                                "notes": {
+                                                    "type": "string",
+                                                    "example": "Patrocínio especial para cuidados médicos"
+                                                },
+                                                "createdAt": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-01T12:00:00Z"
+                                                },
+                                                "updatedAt": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-01T12:00:00Z"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflito: Associação já existente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Este patrocinador já está associado a este animal."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "406": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "msg": {
+                                                "type": "string",
+                                                "example": "Erro de validação no campo sponsor_id"
+                                            },
+                                            "param": {
+                                                "type": "string",
+                                                "example": "sponsor_id"
+                                            },
+                                            "location": {
+                                                "type": "string",
+                                                "example": "body"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno no servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Erro ao criar associação de patrocinador com animal."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sponsorsanimal/{id}": {
+            "put": {
+                "summary": "Atualiza uma associação de patrocinador com animal",
+                "description": "Este endpoint permite atualizar a associação entre um patrocinador e um animal.",
+                "tags": [
+                    "Associações: Animais e Patrocinadores"
+                ],
+                "security": [
+                    {
+                        "AuthorizationHeader": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "ID da associação patrocinador-animal a ser atualizada",
+                        "schema": {
+                            "type": "string",
+                            "example": "60b2b8f3f4f9c29a12aaf5f6"
+                        }
+                    },
+                    {
+                        "in": "body",
+                        "name": "sponsoranimal",
+                        "required": true,
+                        "description": "Dados da associação patrocinador-animal a ser atualizada",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "sponsor_id": {
+                                    "type": "string",
+                                    "description": "ID do patrocinador",
+                                    "example": "60b2b8f3f4f9c29a12aaf5f6"
+                                },
+                                "animal_id": {
+                                    "type": "string",
+                                    "description": "ID do animal associado",
+                                    "example": "60b2b8f3f4f9c29a12aaf5f7"
+                                },
+                                "notes": {
+                                    "type": "string",
+                                    "description": "Notas adicionais sobre a associação",
+                                    "example": "Associação premium"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Associação patrocinador-animal atualizada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Associação patrocinador-animal atualizada com sucesso"
+                                        },
+                                        "body": {
+                                            "type": "object",
+                                            "properties": {
+                                                "_id": {
+                                                    "type": "string",
+                                                    "example": "60b2b8f3f4f9c29a12aaf5f6"
+                                                },
+                                                "sponsor_id": {
+                                                    "type": "string",
+                                                    "example": "60b2b8f3f4f9c29a12aaf5f6"
+                                                },
+                                                "animal_id": {
+                                                    "type": "string",
+                                                    "example": "60b2b8f3f4f9c29a12aaf5f7"
+                                                },
+                                                "notes": {
+                                                    "type": "string",
+                                                    "example": "Associação premium"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Já existe uma associação com este patrocinador e animal"
+                    },
+                    "404": {
+                        "description": "Associação não encontrada"
+                    },
+                    "500": {
+                        "description": "Erro ao atualizar a associação patrocinador-animal"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Exclui uma associação de patrocinador com animal",
+                "description": "Este endpoint permite excluir uma associação de patrocinador com animal. A associação será excluída se não houver problemas associados a ela.",
+                "tags": [
+                    "Associações: Animais e Patrocinadores"
+                ],
+                "security": [
+                    {
+                        "AuthorizationHeader": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "ID da associação patrocinador-animal a ser excluída",
+                        "schema": {
+                            "type": "string",
+                            "example": "60b2b8f3f4f9c29a12aaf5f6"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Associação patrocinador-animal excluída com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Associação patrocinador-animal excluída com sucesso"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro ao excluir associação patrocinador-animal. A associação não pode ser excluída."
+                    },
+                    "404": {
+                        "description": "Associação não encontrada"
+                    },
+                    "500": {
+                        "description": "Erro ao processar a exclusão da associação"
+                    }
+                }
+            }
+        },
+        "/expertsanimal": {
+            "get": {
+                "summary": "Busca associações entre especialistas e animais",
+                "description": "Este endpoint permite buscar associações entre especialistas e animais com base nos parâmetros de consulta.",
+                "tags": [
+                    "Associações: Animais e Especialistas"
+                ],
+                "security": [
+                    {
+                        "AuthorizationHeader": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Associações encontradas com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Associações encontradas com sucesso"
+                                        },
+                                        "body": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "_id": {
+                                                        "type": "string",
+                                                        "example": "60b2b8f3f4f9c29a12aaf5f6"
+                                                    },
+                                                    "expert_id": {
+                                                        "type": "string",
+                                                        "example": "60b2b8f3f4f9c29a12aaf5f5"
+                                                    },
+                                                    "animal_id": {
+                                                        "type": "string",
+                                                        "example": "60b2b8f3f4f9c29a12aaf5f7"
+                                                    },
+                                                    "association_type": {
+                                                        "type": "string",
+                                                        "example": "Veterinário"
+                                                    },
+                                                    "notes": {
+                                                        "type": "string",
+                                                        "example": "Notas sobre a associação"
+                                                    },
+                                                    "createdAt": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-01-01T12:00:00Z"
+                                                    },
+                                                    "updatedAt": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-01-01T12:00:00Z"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nenhuma associação encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Nenhuma associação encontrada"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno no servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Erro ao buscar associações."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Cria uma nova associação entre especialista e animal",
+                "description": "Este endpoint cria uma nova associação entre um especialista e um animal, verificando se a associação já existe antes de criar uma nova.",
+                "tags": [
+                    "Associações: Animais e Especialistas"
+                ],
+                "security": [
+                    {
+                        "AuthorizationHeader": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "expert_id": {
+                                        "type": "string",
+                                        "description": "ID do especialista",
+                                        "example": "60b2b8f3f4f9c29a12aaf5f6"
+                                    },
+                                    "animal_id": {
+                                        "type": "string",
+                                        "description": "ID do animal",
+                                        "example": "60b2b8f3f4f9c29a12aaf5f7"
+                                    },
+                                    "association_type": {
+                                        "type": "string",
+                                        "description": "Tipo de associação",
+                                        "example": "Veterinário"
+                                    },
+                                    "notes": {
+                                        "type": "string",
+                                        "description": "Notas adicionais sobre a associação",
+                                        "example": "Especialista responsável por exames periódicos."
+                                    }
+                                },
+                                "required": [
+                                    "expert_id",
+                                    "animal_id",
+                                    "association_type"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Associação criada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Associação criada com sucesso"
+                                        },
+                                        "body": {
+                                            "type": "object",
+                                            "properties": {
+                                                "_id": {
+                                                    "type": "string",
+                                                    "example": "60b2b8f3f4f9c29a12aaf5f8"
+                                                },
+                                                "expert_id": {
+                                                    "type": "string",
+                                                    "example": "60b2b8f3f4f9c29a12aaf5f6"
+                                                },
+                                                "animal_id": {
+                                                    "type": "string",
+                                                    "example": "60b2b8f3f4f9c29a12aaf5f7"
+                                                },
+                                                "association_type": {
+                                                    "type": "string",
+                                                    "example": "Veterinário"
+                                                },
+                                                "notes": {
+                                                    "type": "string",
+                                                    "example": "Especialista responsável por exames periódicos."
+                                                },
+                                                "createdAt": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-01T12:00:00Z"
+                                                },
+                                                "updatedAt": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-01T12:00:00Z"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflito - Especialista já associado a este animal",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Este especialista já está associado a este animal."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno no servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Erro ao criar associação de especialista com animal."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/expertsanimal/{id}": {
+            "put": {
+                "summary": "Atualiza uma associação entre especialista e animal",
+                "description": "Este endpoint permite atualizar uma associação existente entre especialista e animal, verificando se a nova associação já existe antes da atualização.",
+                "tags": [
+                    "Associações: Animais e Especialistas"
+                ],
+                "security": [
+                    {
+                        "AuthorizationHeader": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "ID da associação a ser atualizada",
+                        "schema": {
+                            "type": "string",
+                            "example": "60b2b8f3f4f9c29a12aaf5f8"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "expert_id": {
+                                        "type": "string",
+                                        "description": "ID do especialista",
+                                        "example": "60b2b8f3f4f9c29a12aaf5f6"
+                                    },
+                                    "animal_id": {
+                                        "type": "string",
+                                        "description": "ID do animal",
+                                        "example": "60b2b8f3f4f9c29a12aaf5f7"
+                                    },
+                                    "association_type": {
+                                        "type": "string",
+                                        "description": "Tipo de associação",
+                                        "example": "Veterinário"
+                                    },
+                                    "notes": {
+                                        "type": "string",
+                                        "description": "Notas adicionais sobre a associação",
+                                        "example": "Atualização do especialista responsável."
+                                    }
+                                },
+                                "required": [
+                                    "expert_id",
+                                    "animal_id",
+                                    "association_type"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Associação atualizada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Associação atualizada com sucesso"
+                                        },
+                                        "body": {
+                                            "type": "object",
+                                            "properties": {
+                                                "_id": {
+                                                    "type": "string",
+                                                    "example": "60b2b8f3f4f9c29a12aaf5f8"
+                                                },
+                                                "expert_id": {
+                                                    "type": "string",
+                                                    "example": "60b2b8f3f4f9c29a12aaf5f6"
+                                                },
+                                                "animal_id": {
+                                                    "type": "string",
+                                                    "example": "60b2b8f3f4f9c29a12aaf5f7"
+                                                },
+                                                "association_type": {
+                                                    "type": "string",
+                                                    "example": "Veterinário"
+                                                },
+                                                "notes": {
+                                                    "type": "string",
+                                                    "example": "Atualização do especialista responsável."
+                                                },
+                                                "createdAt": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-01T12:00:00Z"
+                                                },
+                                                "updatedAt": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-01T12:00:00Z"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflito - Especialista já associado a este animal",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Este especialista já está associado a este animal."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno no servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Erro ao atualizar associação de especialista com animal."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Deleta uma associação entre especialista e animal",
+                "description": "Este endpoint deleta uma associação entre especialista e animal, removendo a associação do banco de dados.",
+                "tags": [
+                    "Associações: Animais e Especialistas"
+                ],
+                "security": [
+                    {
+                        "AuthorizationHeader": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "ID da associação a ser deletada",
+                        "schema": {
+                            "type": "string",
+                            "example": "60b2b8f3f4f9c29a12aaf5f8"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Associação deletada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Associação deletada com sucesso"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Associação não encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Associação não encontrada"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno no servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Erro ao deletar associação de especialista com animal."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "AuthorizationHeader": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "Authorization",
+                "description": "Insira apenas o token JWT no cabeçalho Authorization sem o prefixo 'Bearer'."
+            }
+        }
+    }
+}
