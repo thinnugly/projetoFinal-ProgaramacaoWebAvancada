@@ -7,7 +7,7 @@ module.exports = {
             user: 'users',
             task: 'tasks',
             comment: 'comments',
-            notifcation: 'notfications'
+            notification: 'notifications'
         }
     },
     auth: {
