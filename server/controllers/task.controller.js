@@ -1,9 +1,9 @@
 const Task = require('../models/task.model');
 const Notification = require('../models/notification.model');
-const { validationResult } = require('express-validator');
-const TaskStatus = require('../models/task.model').TaskStatus;
+const { query, validationResult } = require('express-validator');
 const TaskMessages = require('../messages/task.messages');
 const { getIO } = require('../socket/socket');
+
 
 exports.get = async (req, res) => {
     try {
@@ -263,7 +263,6 @@ exports.update = async (req, res) => {
     }
 };
 
-
 exports.delete = async (req, res) => {
     const errors = validationResult(req).array();
     if (errors.length > 0) return res.status(406).send(errors);
@@ -297,7 +296,6 @@ exports.delete = async (req, res) => {
 
         await taskNotification.save();
 
-        // Emissão da notificação em tempo real para o usuário
         const io = getIO();
         io.to(task.attachedTo.toString()).emit("taskDeleted", {
             message: notificationMessage,
@@ -314,14 +312,3 @@ exports.delete = async (req, res) => {
         });
     }
 };
-
-
-
-
-
-
-
-
-
-
-

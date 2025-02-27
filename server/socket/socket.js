@@ -1,6 +1,6 @@
 const { Server } = require("socket.io");
 
-let io; // Definir uma variável global para armazenar a instância do io
+let io;
 
 const setupSocket = (server) => {
     io = new Server(server, { cors: { origin: "*" } });

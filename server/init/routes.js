@@ -5,4 +5,5 @@ module.exports = (app) => {
     app.use('/users', require('../routes/user.routes'));
     app.use('/terms', require('../routes/terms.routes'));
     app.use('/tasks', require('../routes/task.routes'));
+    app.use('/tasks/comment', require('../routes/comment.routes'));
 }
