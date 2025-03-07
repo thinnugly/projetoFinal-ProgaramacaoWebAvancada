@@ -38,11 +38,11 @@ connectDB().then(() => {
     createAdminUser();
 
     // Servir arquivos estáticos da aplicação cliente (SPA)
-    app.use(express.static(path.join(__dirname, 'client', 'dist')));
+    app.use(express.static(path.join(__dirname, '../client', 'dist')));
 
     // Redirecionar todas as outras rotas para o index.html da SPA
     app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+        res.sendFile(path.join(__dirname, '../client', 'dist', 'index.html'));
     });
 
     // Iniciar o servidor
