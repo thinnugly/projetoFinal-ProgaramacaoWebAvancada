@@ -5,7 +5,7 @@ const {
 const UserMessages = require("../messages/user.messages");
 const JWT = require("jsonwebtoken");
 const CONFIG = require("../config/config");
-
+const bcrypt = require('bcryptjs');
 
 exports.get = async (req, res) => {
     try {
@@ -119,6 +119,11 @@ exports.update = async (req, res) => {
             }
         }
 
+        // If the password is present, hash it before updating
+        if (req.body.auth && req.body.auth.password) {
+            req.body.auth.password = bcrypt.hashSync(req.body.auth.password, bcrypt.genSaltSync(10));
+        }
+
         const user = await User.findOneAndUpdate(
             { _id: req.params.id },
             { $set: req.body },
@@ -139,6 +144,7 @@ exports.update = async (req, res) => {
         });
     }
 };
+
 
 
 exports.delete = async (req, res) => {

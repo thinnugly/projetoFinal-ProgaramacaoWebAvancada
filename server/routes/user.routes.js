@@ -13,7 +13,8 @@ router.route('/')
         body('auth.password').isString(),
         body('auth.profile').optional().isIn(['admin', 'employee'])
     ], AuthController.checkAuthOrNot, UserController.create)
-    .get(AuthController.checkAuth, AuthController.checkAdmin, UserController.get);
+    .get(AuthController.checkAuth, UserController.get);
+    // .get(AuthController.checkAuth, AuthController.checkAdmin, UserController.get);
 
 router.route("/deactivate/:id")
     .put(AuthController.checkAuth, AuthController.checkAdmin, [param("id").isMongoId()], UserController.deactivate);

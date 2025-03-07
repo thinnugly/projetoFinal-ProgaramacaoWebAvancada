@@ -125,7 +125,7 @@ exports.create = async (req, res) => {
             taskId: task._id
         });
 
-        let message = TaskMessages.success.s1;
+        let message = TaskMessages.success.s0;
         message.body = task;
 
         return res

@@ -79,21 +79,21 @@
                 }
             }
         },
-        "/animals": {
+        "/users": {
             "get": {
-                "summary": "Busca animais com base nos parâmetros de consulta",
-                "description": "Este endpoint permite buscar animais com base nos parâmetros de consulta e popula o campo de comentários com as informações do usuário associado.",
+                "summary": "Obtém a lista de usuários",
+                "description": "Recupera a lista de usuários no banco de dados.",
                 "tags": [
-                    "Animais"
+                    "Users"
                 ],
                 "security": [
                     {
-                        "AuthorizationHeader": []
+                        "BearerAuth": []
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Animais encontrados com sucesso",
+                        "description": "Lista de usuários obtida com sucesso",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -101,135 +101,7 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Animais encontrados com sucesso"
-                                        },
-                                        "body": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "object",
-                                                "properties": {
-                                                    "_id": {
-                                                        "type": "string",
-                                                        "example": "60b2b8f3f4f9c29a12aaf5f8"
-                                                    },
-                                                    "name": {
-                                                        "type": "string",
-                                                        "example": "Leão"
-                                                    },
-                                                    "species": {
-                                                        "type": "string",
-                                                        "example": "Felidae"
-                                                    },
-                                                    "age": {
-                                                        "type": "integer",
-                                                        "example": 5
-                                                    },
-                                                    "location": {
-                                                        "type": "string",
-                                                        "example": "Moçambique"
-                                                    },
-                                                    "comments": {
-                                                        "type": "array",
-                                                        "items": {
-                                                            "type": "object",
-                                                            "properties": {
-                                                                "user": {
-                                                                    "type": "object",
-                                                                    "properties": {
-                                                                        "name": {
-                                                                            "type": "string",
-                                                                            "example": "João Silva"
-                                                                        }
-                                                                    }
-                                                                },
-                                                                "comment": {
-                                                                    "type": "string",
-                                                                    "example": "Este animal é impressionante!"
-                                                                },
-                                                                "createdAt": {
-                                                                    "type": "string",
-                                                                    "format": "date-time",
-                                                                    "example": "2024-01-01T12:00:00Z"
-                                                                }
-                                                            }
-                                                        }
-                                                    },
-                                                    "createdAt": {
-                                                        "type": "string",
-                                                        "format": "date-time",
-                                                        "example": "2024-01-01T12:00:00Z"
-                                                    },
-                                                    "updatedAt": {
-                                                        "type": "string",
-                                                        "format": "date-time",
-                                                        "example": "2024-01-01T12:00:00Z"
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Nenhum animal encontrado",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Nenhum animal encontrado"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Erro interno no servidor",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Erro ao buscar animais."
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/sponsors": {
-            "get": {
-                "summary": "Obtém a lista de patrocinadores",
-                "description": "Recupera a lista de patrocinadores do banco de dados.",
-                "tags": [
-                    "Patrocinadores"
-                ],
-                "security": [
-                    {
-                        "AuthorizationHeader": []
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Lista de patrocinadores obtida com sucesso",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Patrocinadores encontrados"
+                                            "example": "Usuários encontrados"
                                         },
                                         "body": {
                                             "type": "array",
@@ -242,7 +114,7 @@
                                                     },
                                                     "name": {
                                                         "type": "string",
-                                                        "example": "Patrocinador Exemplo"
+                                                        "example": "Usuário Exemplo"
                                                     }
                                                 }
                                             }
@@ -252,20 +124,23 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "Erro ao recuperar patrocinadores"
+                    "204": {
+                        "description": "Nenhum usuário encontrado."
+                    },
+                    "401": {
+                        "description": "Não autorizado. O token de autenticação é inválido ou não foi fornecido."
                     }
                 }
             },
             "post": {
-                "summary": "Cria um novo patrocinador",
-                "description": "Este endpoint permite criar um novo patrocinador na base de dados.",
+                "summary": "Cria uma nova conta de usuario",
+                "description": "Se nao usar TOKEN, criara um usuario com perfil de 'employee', caso use, podera escolher o perfil entre 'admin ou employee'",
                 "tags": [
-                    "Patrocinadores"
+                    "Users"
                 ],
                 "security": [
                     {
-                        "AuthorizationHeader": []
+                        "BearerAuth": []
                     }
                 ],
                 "requestBody": {
@@ -277,33 +152,41 @@
                                 "properties": {
                                     "name": {
                                         "type": "string",
-                                        "description": "Nome do patrocinador"
+                                        "description": "Nome do usuário",
+                                        "example": "Renato Madeia Muiambo"
                                     },
-                                    "organization": {
-                                        "type": "string",
-                                        "description": "Organização do patrocinador"
-                                    },
-                                    "sponsorship_value": {
-                                        "type": "number",
-                                        "description": "Valor do patrocínio",
-                                        "example": 10000.0
-                                    },
-                                    "contact": {
-                                        "type": "string",
-                                        "description": "Número de contato do patrocinador",
-                                        "example": "987654321"
-                                    },
-                                    "notes": {
-                                        "type": "string",
-                                        "description": "Notas adicionais sobre o patrocinador",
-                                        "example": "Patrocinador premium"
+                                    "auth": {
+                                        "type": "object",
+                                        "properties": {
+                                            "username": {
+                                                "type": "string",
+                                                "description": "Email do usuário",
+                                                "example": "renatomuiambo24@gmail.com"
+                                            },
+                                            "password": {
+                                                "type": "string",
+                                                "description": "Senha do usuário",
+                                                "example": "senhaSegura123"
+                                            },
+                                            "profile": {
+                                                "type": "string",
+                                                "enum": [
+                                                    "admin",
+                                                    "employee"
+                                                ],
+                                                "description": "Perfil do usuário",
+                                                "example": "admin"
+                                            }
+                                        },
+                                        "required": [
+                                            "username",
+                                            "password"
+                                        ]
                                     }
                                 },
                                 "required": [
                                     "name",
-                                    "organization",
-                                    "sponsorship_value",
-                                    "contact"
+                                    "auth"
                                 ]
                             }
                         }
@@ -311,7 +194,7 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Patrocinador criado com sucesso",
+                        "description": "Usuario criado com sucesso",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -319,7 +202,7 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Patrocinador criado com sucesso"
+                                            "example": "Usuário criado com sucesso"
                                         },
                                         "body": {
                                             "type": "object",
@@ -330,23 +213,32 @@
                                                 },
                                                 "name": {
                                                     "type": "string",
-                                                    "example": "Patrocinador Exemplo"
-                                                },
-                                                "organization": {
-                                                    "type": "string",
-                                                    "example": "Organização Exemplo"
-                                                },
-                                                "sponsorship_value": {
-                                                    "type": "number",
-                                                    "example": 10000.0
-                                                },
-                                                "contact": {
-                                                    "type": "string",
-                                                    "example": "987654321"
-                                                },
-                                                "notes": {
-                                                    "type": "string",
+                                                    "description": "Nome do usuário",
                                                     "example": "Patrocinador premium"
+                                                },
+                                                "auth": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "username": {
+                                                            "type": "string",
+                                                            "description": "Email",
+                                                            "example": "usuario@example.com"
+                                                        },
+                                                        "password": {
+                                                            "type": "string",
+                                                            "description": "Senha criptografada",
+                                                            "example": "$2b$10$e0MYzXyjpJS2zjM0oJrZJe"
+                                                        },
+                                                        "profile": {
+                                                            "type": "string",
+                                                            "enum": [
+                                                                "admin",
+                                                                "employee"
+                                                            ],
+                                                            "description": "Perfil do usuário",
+                                                            "example": "admin"
+                                                        }
+                                                    }
                                                 }
                                             }
                                         }
@@ -355,28 +247,25 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "Erro de validação de dados"
-                    },
                     "409": {
-                        "description": "Já existe um patrocinador com este nome"
+                        "description": "Já existe um usuario com este email"
                     },
                     "500": {
-                        "description": "Erro ao criar patrocinador"
+                        "description": "Erro ao criar usuario"
                     }
                 }
             }
         },
-        "/sponsors/{id}": {
-            "put": {
-                "summary": "Atualiza um patrocinador existente",
-                "description": "Este endpoint permite atualizar os detalhes de um patrocinador já existente.",
+        "/users/{id}": {
+            "get": {
+                "summary": "Recupere os dados de um so usuário",
+                "description": "Recupere os dados de um so usuário no banco de dados.",
                 "tags": [
-                    "Patrocinadores"
+                    "Users"
                 ],
                 "security": [
                     {
-                        "AuthorizationHeader": []
+                        "BearerAuth": []
                     }
                 ],
                 "parameters": [
@@ -384,7 +273,71 @@
                         "in": "path",
                         "name": "id",
                         "required": true,
-                        "description": "ID do patrocinador a ser atualizado",
+                        "description": "ID do usuario",
+                        "schema": {
+                            "type": "string",
+                            "example": "60b2b8f3f4f9c29a12aaf5f6"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Usuario obtido com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Usuário encontrado"
+                                        },
+                                        "body": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "example": "5f4e3e5e56f5c9bdb3a3f7b8"
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Usuário Exemplo"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "Nenhum usuário encontrado."
+                    },
+                    "401": {
+                        "description": "Não autorizado. O token de autenticação é inválido ou não foi fornecido."
+                    }
+                }
+            },
+            "put": {
+                "summary": "Atualize um usuario existente",
+                "description": "Este endpoint permite atualizar um usuario existente na base de dados.",
+                "tags": [
+                    "Users"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "ID do usuario",
                         "schema": {
                             "type": "string",
                             "example": "60b2b8f3f4f9c29a12aaf5f6"
@@ -400,37 +353,49 @@
                                 "properties": {
                                     "name": {
                                         "type": "string",
-                                        "description": "Nome do patrocinador",
-                                        "example": "Novo Patrocinador"
+                                        "description": "Nome do usuário",
+                                        "example": "Renato Madeia Muiambo"
                                     },
-                                    "organization": {
-                                        "type": "string",
-                                        "description": "Organização do patrocinador",
-                                        "example": "Nova Organização"
-                                    },
-                                    "sponsorship_value": {
-                                        "type": "number",
-                                        "description": "Valor do patrocínio",
-                                        "example": 12000.0
-                                    },
-                                    "contact": {
-                                        "type": "string",
-                                        "description": "Número de contato do patrocinador",
-                                        "example": "987654321"
-                                    },
-                                    "notes": {
-                                        "type": "string",
-                                        "description": "Notas adicionais sobre o patrocinador",
-                                        "example": "Patrocinador premium"
+                                    "auth": {
+                                        "type": "object",
+                                        "properties": {
+                                            "username": {
+                                                "type": "string",
+                                                "description": "Email do usuário",
+                                                "example": "renatomuiambo24@gmail.com"
+                                            },
+                                            "password": {
+                                                "type": "string",
+                                                "description": "Senha do usuário",
+                                                "example": "senhaSegura123"
+                                            },
+                                            "profile": {
+                                                "type": "string",
+                                                "enum": [
+                                                    "admin",
+                                                    "employee"
+                                                ],
+                                                "description": "Perfil do usuário",
+                                                "example": "admin"
+                                            }
+                                        },
+                                        "required": [
+                                            "username",
+                                            "password"
+                                        ]
                                     }
-                                }
+                                },
+                                "required": [
+                                    "name",
+                                    "auth"
+                                ]
                             }
                         }
                     }
                 },
                 "responses": {
-                    "200": {
-                        "description": "Patrocinador atualizado com sucesso",
+                    "201": {
+                        "description": "Usuario criado com sucesso",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -438,7 +403,7 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Patrocinador atualizado com sucesso"
+                                            "example": "Usuário criado com sucesso"
                                         },
                                         "body": {
                                             "type": "object",
@@ -449,23 +414,32 @@
                                                 },
                                                 "name": {
                                                     "type": "string",
-                                                    "example": "Novo Patrocinador"
-                                                },
-                                                "organization": {
-                                                    "type": "string",
-                                                    "example": "Nova Organização"
-                                                },
-                                                "sponsorship_value": {
-                                                    "type": "number",
-                                                    "example": 12000.0
-                                                },
-                                                "contact": {
-                                                    "type": "string",
-                                                    "example": "987654321"
-                                                },
-                                                "notes": {
-                                                    "type": "string",
+                                                    "description": "Nome do usuário",
                                                     "example": "Patrocinador premium"
+                                                },
+                                                "auth": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "username": {
+                                                            "type": "string",
+                                                            "description": "Email",
+                                                            "example": "usuario@example.com"
+                                                        },
+                                                        "password": {
+                                                            "type": "string",
+                                                            "description": "Senha criptografada",
+                                                            "example": "$2b$10$e0MYzXyjpJS2zjM0oJrZJe"
+                                                        },
+                                                        "profile": {
+                                                            "type": "string",
+                                                            "enum": [
+                                                                "admin",
+                                                                "employee"
+                                                            ],
+                                                            "description": "Perfil do usuário",
+                                                            "example": "admin"
+                                                        }
+                                                    }
                                                 }
                                             }
                                         }
@@ -474,26 +448,23 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "Já existe um patrocinador com este nome"
-                    },
-                    "404": {
-                        "description": "Patrocinador não encontrado"
+                    "409": {
+                        "description": "Já existe um usuario com este email"
                     },
                     "500": {
-                        "description": "Erro ao atualizar patrocinador"
+                        "description": "Erro ao criar usuario"
                     }
                 }
             },
             "delete": {
-                "summary": "Exclui um patrocinador",
-                "description": "Este endpoint permite excluir um patrocinador, caso não esteja associado a nenhum animal.",
+                "summary": "Exclui um usuario",
+                "description": "Este endpoint permite excluir um usuario.",
                 "tags": [
-                    "Patrocinadores"
+                    "Users"
                 ],
                 "security": [
                     {
-                        "AuthorizationHeader": []
+                        "BearerAuth": []
                     }
                 ],
                 "parameters": [
@@ -501,7 +472,7 @@
                         "in": "path",
                         "name": "id",
                         "required": true,
-                        "description": "ID do patrocinador a ser excluído",
+                        "description": "ID do usuario",
                         "schema": {
                             "type": "string",
                             "example": "60b2b8f3f4f9c29a12aaf5f6"
@@ -510,7 +481,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Patrocinador excluído com sucesso",
+                        "description": "Usuario excluído com sucesso",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -518,7 +489,7 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Patrocinador excluído com sucesso"
+                                            "example": "Usuario60b2b8f3f4f9c29a12aaf5f6 excluído com sucesso"
                                         }
                                     }
                                 }
@@ -537,21 +508,21 @@
                 }
             }
         },
-        "/experts": {
+        "/tasks": {
             "get": {
-                "summary": "Obtém a lista de especialistas",
-                "description": "Recupera a lista de especialistas do banco de dados.",
+                "summary": "Obtém a lista de tarefas",
+                "description": "Recupera a lista de tarefas no banco de dados. Se admin lista todas as tarefas, caso contrario, lista apenas as tarefas associadas ao usuario.",
                 "tags": [
-                    "Especialistas"
+                    "Tasks"
                 ],
                 "security": [
                     {
-                        "AuthorizationHeader": []
+                        "BearerAuth": []
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Lista de especialistas obtida com sucesso",
+                        "description": "Lista de tarefas obtida com sucesso",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -559,39 +530,48 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Especialistas encontrados"
+                                            "example": "Tarefas encontrados"
                                         },
                                         "body": {
                                             "type": "array",
                                             "items": {
                                                 "type": "object",
                                                 "properties": {
-                                                    "id": {
+                                                    "_id": {
                                                         "type": "string",
                                                         "example": "5f4e3e5e56f5c9bdb3a3f7b8"
                                                     },
-                                                    "name": {
+                                                    "title": {
                                                         "type": "string",
-                                                        "example": "Dr. João Silva"
+                                                        "example": "Frontend Teste"
                                                     },
-                                                    "institution": {
+                                                    "description": {
                                                         "type": "string",
-                                                        "example": "Universidade Exemplo"
+                                                        "example": "Frontend Teste"
                                                     },
-                                                    "areas_expertise": {
-                                                        "type": "array",
-                                                        "items": {
-                                                            "type": "string",
-                                                            "example": "Inteligência Artificial"
-                                                        }
-                                                    },
-                                                    "contacto": {
+                                                    "status": {
                                                         "type": "string",
-                                                        "example": "987654321"
+                                                        "example": "IN_PROGRESS"
                                                     },
-                                                    "notes": {
+                                                    "priority": {
                                                         "type": "string",
-                                                        "example": "Especialista em aprendizado de máquina"
+                                                        "example": "5f4e3e5e56f5c9bdb3a3f7b8"
+                                                    },
+                                                    "due": {
+                                                        "type": "string",
+                                                        "example": "MEDIUM"
+                                                    },
+                                                    "attachedTo": {
+                                                        "type": "string",
+                                                        "example": "5f4e3e5e56f5c9bdb3a3f7b8"
+                                                    },
+                                                    "createdBy": {
+                                                        "type": "string",
+                                                        "example": "67c366ccc9f7b87e508e385e"
+                                                    },
+                                                    "updatedBy": {
+                                                        "type": "string",
+                                                        "example": "67c366ccc9f7b87e508e385e"
                                                     }
                                                 }
                                             }
@@ -601,20 +581,23 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "Erro ao recuperar especialistas"
+                    "204": {
+                        "description": "Nenhum tarefa encontrado."
+                    },
+                    "401": {
+                        "description": "Não autorizado. O token de autenticação é inválido ou não foi fornecido."
                     }
                 }
             },
             "post": {
-                "summary": "Cria um novo especialista",
-                "description": "Este endpoint permite criar um novo especialista na base de dados.",
+                "summary": "Cria uma nova tarefa",
+                "description": "So usuarios com perfil de 'admin' podem criar tarefas e associa-las a usuarios com perfil de 'employee'",
                 "tags": [
-                    "Especialistas"
+                    "Tasks"
                 ],
                 "security": [
                     {
-                        "AuthorizationHeader": []
+                        "BearerAuth": []
                     }
                 ],
                 "requestBody": {
@@ -624,43 +607,44 @@
                             "schema": {
                                 "type": "object",
                                 "properties": {
-                                    "name": {
+                                    "title": {
                                         "type": "string",
-                                        "description": "Nome do especialista",
-                                        "example": "João Silva"
+                                        "description": "Titulo da tarefa",
+                                        "example": "Design a Database Schema"
                                     },
-                                    "institution": {
+                                    "description": {
                                         "type": "string",
-                                        "description": "Instituição do especialista",
-                                        "example": "Universidade de Moçambique"
+                                        "description": "Descricao da tarefa",
+                                        "example": "Design a Database Schema"
                                     },
-                                    "areas_expertise": {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "string"
-                                        },
-                                        "description": "Áreas de especialização do especialista",
-                                        "example": [
-                                            "Inteligência Artificial",
-                                            "Ciência de Dados"
-                                        ]
-                                    },
-                                    "contacto": {
+                                    "due": {
                                         "type": "string",
-                                        "description": "Número de contato do especialista",
-                                        "example": "987654321"
+                                        "description": "Prazo",
+                                        "example": "2025-03-03"
                                     },
-                                    "notes": {
+                                    "priority": {
                                         "type": "string",
-                                        "description": "Notas adicionais sobre o especialista",
-                                        "example": "Especialista renomado em Machine Learning"
+                                        "enum": [
+                                            "LOW",
+                                            "MEDIUM",
+                                            "HIGH",
+                                            "URGENT"
+                                        ],
+                                        "description": "Prioridade",
+                                        "example": "HIGH"
+                                    },
+                                    "attachedTo": {
+                                        "type": "string",
+                                        "description": "Usuario associado",
+                                        "example": "67c5bac60db92c7eb3d8dfc0"
                                     }
                                 },
                                 "required": [
-                                    "name",
-                                    "institution",
-                                    "areas_expertise",
-                                    "contacto"
+                                    "title",
+                                    "description",
+                                    "due",
+                                    "priority",
+                                    "attachedTo"
                                 ]
                             }
                         }
@@ -668,52 +652,54 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Especialista criado com sucesso",
+                        "description": "Tarefa criada com sucesso",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "object",
                                     "properties": {
-                                        "http": {
-                                            "type": "integer",
-                                            "example": 201
-                                        },
                                         "message": {
                                             "type": "string",
-                                            "example": "Especialista criado com sucesso"
+                                            "example": "Tarefa criado com sucesso"
                                         },
                                         "body": {
                                             "type": "object",
                                             "properties": {
                                                 "_id": {
                                                     "type": "string",
-                                                    "example": "60b2b8f3f4f9c29a12aaf5f6"
+                                                    "example": "5f4e3e5e56f5c9bdb3a3f7b8"
                                                 },
-                                                "name": {
+                                                "title": {
                                                     "type": "string",
-                                                    "example": "João Silva"
+                                                    "example": "Frontend Teste"
                                                 },
-                                                "institution": {
+                                                "description": {
                                                     "type": "string",
-                                                    "example": "Universidade de Moçambique"
+                                                    "example": "Frontend Teste"
                                                 },
-                                                "areas_expertise": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string"
-                                                    },
-                                                    "example": [
-                                                        "Inteligência Artificial",
-                                                        "Ciência de Dados"
-                                                    ]
-                                                },
-                                                "contacto": {
+                                                "status": {
                                                     "type": "string",
-                                                    "example": "987654321"
+                                                    "example": "IN_PROGRESS"
                                                 },
-                                                "notes": {
+                                                "priority": {
                                                     "type": "string",
-                                                    "example": "Especialista renomado em Machine Learning"
+                                                    "example": "5f4e3e5e56f5c9bdb3a3f7b8"
+                                                },
+                                                "due": {
+                                                    "type": "string",
+                                                    "example": "MEDIUM"
+                                                },
+                                                "attachedTo": {
+                                                    "type": "string",
+                                                    "example": "5f4e3e5e56f5c9bdb3a3f7b8"
+                                                },
+                                                "createdBy": {
+                                                    "type": "string",
+                                                    "example": "67c366ccc9f7b87e508e385e"
+                                                },
+                                                "updatedBy": {
+                                                    "type": "string",
+                                                    "example": "67c366ccc9f7b87e508e385e"
                                                 }
                                             }
                                         }
@@ -721,248 +707,46 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Não autorizado. O token de autenticação é inválido ou não foi fornecido."
                     },
                     "409": {
-                        "description": "Já existe um especialista com este nome",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "http": {
-                                            "type": "integer",
-                                            "example": 409
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Já existe um especialista com este nome."
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "406": {
-                        "description": "Erro de validação de dados",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "object",
-                                        "properties": {
-                                            "msg": {
-                                                "type": "string",
-                                                "example": "Nome é obrigatório"
-                                            },
-                                            "param": {
-                                                "type": "string",
-                                                "example": "name"
-                                            },
-                                            "location": {
-                                                "type": "string",
-                                                "example": "body"
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        "description": "A task with the same title already exists"
                     },
                     "500": {
-                        "description": "Erro ao criar especialista",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "http": {
-                                            "type": "integer",
-                                            "example": 500
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Erro ao criar especialista."
-                                        },
-                                        "error": {
-                                            "type": "string",
-                                            "example": "Detalhes do erro interno."
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        "description": "Erro ao criar usuario"
                     }
                 }
             }
         },
-        "/experts/{id}": {
-            "put": {
-                "summary": "Atualiza um especialista existente",
-                "description": "Este endpoint permite atualizar os detalhes de um especialista já existente.",
-                "tags": [
-                    "Especialistas"
-                ],
-                "security": [
-                    {
-                        "AuthorizationHeader": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "description": "ID do especialista a ser atualizado",
-                        "schema": {
-                            "type": "string",
-                            "example": "60b2b8f3f4f9c29a12aaf5f6"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "name": {
-                                        "type": "string",
-                                        "description": "Nome do especialista",
-                                        "example": "Novo Especialista"
-                                    },
-                                    "expertise": {
-                                        "type": "string",
-                                        "description": "Área de especialização",
-                                        "example": "Medicina Veterinária"
-                                    },
-                                    "contact": {
-                                        "type": "string",
-                                        "description": "Número de contato",
-                                        "example": "987654321"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Especialista atualizado com sucesso",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Especialista atualizado com sucesso"
-                                        },
-                                        "body": {
-                                            "type": "object",
-                                            "properties": {
-                                                "_id": {
-                                                    "type": "string",
-                                                    "example": "60b2b8f3f4f9c29a12aaf5f6"
-                                                },
-                                                "name": {
-                                                    "type": "string",
-                                                    "example": "Novo Especialista"
-                                                },
-                                                "expertise": {
-                                                    "type": "string",
-                                                    "example": "Medicina Veterinária"
-                                                },
-                                                "contact": {
-                                                    "type": "string",
-                                                    "example": "987654321"
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Já existe um especialista com este nome"
-                    },
-                    "404": {
-                        "description": "Especialista não encontrado"
-                    },
-                    "500": {
-                        "description": "Erro ao atualizar especialista"
-                    }
-                }
-            },
-            "delete": {
-                "summary": "Exclui um especialista",
-                "description": "Este endpoint permite excluir um especialista, caso não esteja associado a nenhum animal.",
-                "tags": [
-                    "Especialistas"
-                ],
-                "security": [
-                    {
-                        "AuthorizationHeader": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "description": "ID do especialista a ser excluído",
-                        "schema": {
-                            "type": "string",
-                            "example": "60b2b8f3f4f9c29a12aaf5f6"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Especialista excluído com sucesso",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Especialista excluído com sucesso"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Este especialista ainda está associado a um animal e não pode ser excluído"
-                    },
-                    "404": {
-                        "description": "Especialista não encontrado"
-                    },
-                    "500": {
-                        "description": "Erro ao excluir especialista"
-                    }
-                }
-            }
-        },
-        "/sponsorsanimal": {
+        "/tasks/{id}": {
             "get": {
-                "summary": "Busca associações entre patrocinadores e animais",
-                "description": "Este endpoint permite buscar associações entre patrocinadores e animais com base nos parâmetros de consulta.",
+                "summary": "Recupere os dados de um so tarefa",
+                "description": "Recupere os dados de um so tarefa no banco de dados.",
                 "tags": [
-                    "Associações: Animais e Patrocinadores"
+                    "Tasks"
                 ],
                 "security": [
                     {
-                        "AuthorizationHeader": []
+                        "BearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "ID da tarefa",
+                        "schema": {
+                            "type": "string",
+                            "example": "60b2b8f3f4f9c29a12aaf5f6"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Associações encontradas com sucesso",
+                        "description": "Lista de tarefas obtida com sucesso",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -970,7 +754,7 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Associações encontradas com sucesso"
+                                            "example": "Tarefas encontrada"
                                         },
                                         "body": {
                                             "type": "array",
@@ -979,29 +763,39 @@
                                                 "properties": {
                                                     "_id": {
                                                         "type": "string",
-                                                        "example": "60b2b8f3f4f9c29a12aaf5f8"
+                                                        "example": "5f4e3e5e56f5c9bdb3a3f7b8"
                                                     },
-                                                    "sponsor_id": {
+                                                    "title": {
                                                         "type": "string",
-                                                        "example": "60b2b8f3f4f9c29a12aaf5f6"
+                                                        "example": "Frontend Teste"
                                                     },
-                                                    "animal_id": {
+                                                    "description": {
                                                         "type": "string",
-                                                        "example": "60b2b8f3f4f9c29a12aaf5f7"
+                                                        "example": "Frontend Teste"
                                                     },
-                                                    "notes": {
+                                                    "status": {
                                                         "type": "string",
-                                                        "example": "Patrocínio especial para cuidados médicos"
+                                                        "example": "IN_PROGRESS"
                                                     },
-                                                    "createdAt": {
+                                                    "priority": {
                                                         "type": "string",
-                                                        "format": "date-time",
-                                                        "example": "2024-01-01T12:00:00Z"
+                                                        "example": "5f4e3e5e56f5c9bdb3a3f7b8"
                                                     },
-                                                    "updatedAt": {
+                                                    "due": {
                                                         "type": "string",
-                                                        "format": "date-time",
-                                                        "example": "2024-01-01T12:00:00Z"
+                                                        "example": "MEDIUM"
+                                                    },
+                                                    "attachedTo": {
+                                                        "type": "string",
+                                                        "example": "5f4e3e5e56f5c9bdb3a3f7b8"
+                                                    },
+                                                    "createdBy": {
+                                                        "type": "string",
+                                                        "example": "67c366ccc9f7b87e508e385e"
+                                                    },
+                                                    "updatedBy": {
+                                                        "type": "string",
+                                                        "example": "67c366ccc9f7b87e508e385e"
                                                     }
                                                 }
                                             }
@@ -1011,49 +805,35 @@
                             }
                         }
                     },
-                    "404": {
-                        "description": "Nenhuma associação encontrada",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Nenhuma associação encontrada"
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                    "204": {
+                        "description": "Nenhum tarefa encontrado."
                     },
-                    "500": {
-                        "description": "Erro interno no servidor",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Erro ao buscar associações."
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                    "401": {
+                        "description": "Não autorizado. O token de autenticação é inválido ou não foi fornecido."
                     }
                 }
             },
-            "post": {
-                "summary": "Cria uma associação entre patrocinador e animal",
-                "description": "Este endpoint permite criar uma associação entre um patrocinador e um animal.",
+            "put": {
+                "summary": "Atualize uma tarefa existente",
+                "description": "Este endpoint permite atualizar uma tarefa existente na base de dados. Usuarios com perfil de 'employee' so podem mudar o status para [IN_PROGRESS, REVIEW, DONE]",
                 "tags": [
-                    "Associações: Animais e Patrocinadores"
+                    "Tasks"
                 ],
                 "security": [
                     {
-                        "AuthorizationHeader": []
+                        "BearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "ID do usuario",
+                        "schema": {
+                            "type": "string",
+                            "example": "60b2b8f3f4f9c29a12aaf5f6"
+                        }
                     }
                 ],
                 "requestBody": {
@@ -1063,25 +843,22 @@
                             "schema": {
                                 "type": "object",
                                 "properties": {
-                                    "sponsor_id": {
+                                    "status": {
                                         "type": "string",
-                                        "description": "ID do patrocinador a ser associado",
-                                        "example": "60b2b8f3f4f9c29a12aaf5f6"
-                                    },
-                                    "animal_id": {
-                                        "type": "string",
-                                        "description": "ID do animal a ser associado",
-                                        "example": "60b2b8f3f4f9c29a12aaf5f7"
-                                    },
-                                    "notes": {
-                                        "type": "string",
-                                        "description": "Notas adicionais sobre a associação",
-                                        "example": "Patrocínio especial para cuidados médicos"
+                                        "enum": [
+                                            "PENDING",
+                                            "IN_PROGRESS",
+                                            "REVIEW",
+                                            "BLOCKED",
+                                            "DONE",
+                                            "CANCELLED"
+                                        ],
+                                        "description": "Status",
+                                        "example": "REVIEW"
                                     }
                                 },
                                 "required": [
-                                    "sponsor_id",
-                                    "animal_id"
+                                    "status"
                                 ]
                             }
                         }
@@ -1089,16 +866,7 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Associação criada com sucesso",
-                        "headers": {
-                            "location": {
-                                "description": "URL do recurso criado",
-                                "schema": {
-                                    "type": "string",
-                                    "example": "/sponsorsanimal/60b2b8f3f4f9c29a12aaf5f8"
-                                }
-                            }
-                        },
+                        "description": "Tarefa criada com sucesso",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1106,36 +874,46 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Associação criada com sucesso"
+                                            "example": "Tarefa criado com sucesso"
                                         },
                                         "body": {
                                             "type": "object",
                                             "properties": {
                                                 "_id": {
                                                     "type": "string",
-                                                    "example": "60b2b8f3f4f9c29a12aaf5f8"
+                                                    "example": "5f4e3e5e56f5c9bdb3a3f7b8"
                                                 },
-                                                "sponsor_id": {
+                                                "title": {
                                                     "type": "string",
-                                                    "example": "60b2b8f3f4f9c29a12aaf5f6"
+                                                    "example": "Frontend Teste"
                                                 },
-                                                "animal_id": {
+                                                "description": {
                                                     "type": "string",
-                                                    "example": "60b2b8f3f4f9c29a12aaf5f7"
+                                                    "example": "Frontend Teste"
                                                 },
-                                                "notes": {
+                                                "status": {
                                                     "type": "string",
-                                                    "example": "Patrocínio especial para cuidados médicos"
+                                                    "example": "IN_PROGRESS"
                                                 },
-                                                "createdAt": {
+                                                "priority": {
                                                     "type": "string",
-                                                    "format": "date-time",
-                                                    "example": "2024-01-01T12:00:00Z"
+                                                    "example": "5f4e3e5e56f5c9bdb3a3f7b8"
                                                 },
-                                                "updatedAt": {
+                                                "due": {
                                                     "type": "string",
-                                                    "format": "date-time",
-                                                    "example": "2024-01-01T12:00:00Z"
+                                                    "example": "MEDIUM"
+                                                },
+                                                "attachedTo": {
+                                                    "type": "string",
+                                                    "example": "5f4e3e5e56f5c9bdb3a3f7b8"
+                                                },
+                                                "createdBy": {
+                                                    "type": "string",
+                                                    "example": "67c366ccc9f7b87e508e385e"
+                                                },
+                                                "updatedBy": {
+                                                    "type": "string",
+                                                    "example": "67c366ccc9f7b87e508e385e"
                                                 }
                                             }
                                         }
@@ -1143,177 +921,27 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Não autorizado. O token de autenticação é inválido ou não foi fornecido."
                     },
                     "409": {
-                        "description": "Conflito: Associação já existente",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Este patrocinador já está associado a este animal."
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "406": {
-                        "description": "Erro de validação",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "object",
-                                        "properties": {
-                                            "msg": {
-                                                "type": "string",
-                                                "example": "Erro de validação no campo sponsor_id"
-                                            },
-                                            "param": {
-                                                "type": "string",
-                                                "example": "sponsor_id"
-                                            },
-                                            "location": {
-                                                "type": "string",
-                                                "example": "body"
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        "description": "A task with the same title already exists"
                     },
                     "500": {
-                        "description": "Erro interno no servidor",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Erro ao criar associação de patrocinador com animal."
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/sponsorsanimal/{id}": {
-            "put": {
-                "summary": "Atualiza uma associação de patrocinador com animal",
-                "description": "Este endpoint permite atualizar a associação entre um patrocinador e um animal.",
-                "tags": [
-                    "Associações: Animais e Patrocinadores"
-                ],
-                "security": [
-                    {
-                        "AuthorizationHeader": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "description": "ID da associação patrocinador-animal a ser atualizada",
-                        "schema": {
-                            "type": "string",
-                            "example": "60b2b8f3f4f9c29a12aaf5f6"
-                        }
-                    },
-                    {
-                        "in": "body",
-                        "name": "sponsoranimal",
-                        "required": true,
-                        "description": "Dados da associação patrocinador-animal a ser atualizada",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "sponsor_id": {
-                                    "type": "string",
-                                    "description": "ID do patrocinador",
-                                    "example": "60b2b8f3f4f9c29a12aaf5f6"
-                                },
-                                "animal_id": {
-                                    "type": "string",
-                                    "description": "ID do animal associado",
-                                    "example": "60b2b8f3f4f9c29a12aaf5f7"
-                                },
-                                "notes": {
-                                    "type": "string",
-                                    "description": "Notas adicionais sobre a associação",
-                                    "example": "Associação premium"
-                                }
-                            }
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Associação patrocinador-animal atualizada com sucesso",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Associação patrocinador-animal atualizada com sucesso"
-                                        },
-                                        "body": {
-                                            "type": "object",
-                                            "properties": {
-                                                "_id": {
-                                                    "type": "string",
-                                                    "example": "60b2b8f3f4f9c29a12aaf5f6"
-                                                },
-                                                "sponsor_id": {
-                                                    "type": "string",
-                                                    "example": "60b2b8f3f4f9c29a12aaf5f6"
-                                                },
-                                                "animal_id": {
-                                                    "type": "string",
-                                                    "example": "60b2b8f3f4f9c29a12aaf5f7"
-                                                },
-                                                "notes": {
-                                                    "type": "string",
-                                                    "example": "Associação premium"
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Já existe uma associação com este patrocinador e animal"
-                    },
-                    "404": {
-                        "description": "Associação não encontrada"
-                    },
-                    "500": {
-                        "description": "Erro ao atualizar a associação patrocinador-animal"
+                        "description": "Erro ao criar usuario"
                     }
                 }
             },
             "delete": {
-                "summary": "Exclui uma associação de patrocinador com animal",
-                "description": "Este endpoint permite excluir uma associação de patrocinador com animal. A associação será excluída se não houver problemas associados a ela.",
+                "summary": "Exclui uma tarefa",
+                "description": "Este endpoint permite excluir uma tarefa. So admins podem executar esta acao.",
                 "tags": [
-                    "Associações: Animais e Patrocinadores"
+                    "Tasks"
                 ],
                 "security": [
                     {
-                        "AuthorizationHeader": []
+                        "BearerAuth": []
                     }
                 ],
                 "parameters": [
@@ -1321,7 +949,7 @@
                         "in": "path",
                         "name": "id",
                         "required": true,
-                        "description": "ID da associação patrocinador-animal a ser excluída",
+                        "description": "ID do tarefa",
                         "schema": {
                             "type": "string",
                             "example": "60b2b8f3f4f9c29a12aaf5f6"
@@ -1330,7 +958,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Associação patrocinador-animal excluída com sucesso",
+                        "description": "Usuario excluído com sucesso",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1338,7 +966,7 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Associação patrocinador-animal excluída com sucesso"
+                                            "example": "Usuario60b2b8f3f4f9c29a12aaf5f6 excluído com sucesso"
                                         }
                                     }
                                 }
@@ -1346,32 +974,44 @@
                         }
                     },
                     "400": {
-                        "description": "Erro ao excluir associação patrocinador-animal. A associação não pode ser excluída."
+                        "description": "Este patrocinador ainda está associado a um animal e não pode ser excluído"
                     },
                     "404": {
-                        "description": "Associação não encontrada"
+                        "description": "Patrocinador não encontrado"
                     },
                     "500": {
-                        "description": "Erro ao processar a exclusão da associação"
+                        "description": "Erro ao excluir patrocinador"
                     }
                 }
             }
         },
-        "/expertsanimal": {
+        "/tasks/comment/{id}": {
             "get": {
-                "summary": "Busca associações entre especialistas e animais",
-                "description": "Este endpoint permite buscar associações entre especialistas e animais com base nos parâmetros de consulta.",
+                "summary": "Recupere os comentarios de um so tarefa",
+                "description": "Recupere os comentarios de um so tarefa no banco de dados.",
                 "tags": [
-                    "Associações: Animais e Especialistas"
+                    "Comments"
                 ],
                 "security": [
                     {
-                        "AuthorizationHeader": []
+                        "BearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "ID da tarefa",
+                        "schema": {
+                            "type": "string",
+                            "example": "60b2b8f3f4f9c29a12aaf5f6"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Associações encontradas com sucesso",
+                        "description": "Lista de comentarios obtida com sucesso",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1379,7 +1019,7 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Associações encontradas com sucesso"
+                                            "example": "Comentarios encontrada"
                                         },
                                         "body": {
                                             "type": "array",
@@ -1388,33 +1028,23 @@
                                                 "properties": {
                                                     "_id": {
                                                         "type": "string",
-                                                        "example": "60b2b8f3f4f9c29a12aaf5f6"
+                                                        "example": "5f4e3e5e56f5c9bdb3a3f7b8"
                                                     },
-                                                    "expert_id": {
+                                                    "task": {
                                                         "type": "string",
-                                                        "example": "60b2b8f3f4f9c29a12aaf5f5"
+                                                        "example": "67c5c093333580eed3aeb0d7"
                                                     },
-                                                    "animal_id": {
+                                                    "user": {
                                                         "type": "string",
-                                                        "example": "60b2b8f3f4f9c29a12aaf5f7"
+                                                        "example": "67c366ccc9f7b87e508e385e"
                                                     },
-                                                    "association_type": {
+                                                    "message": {
                                                         "type": "string",
-                                                        "example": "Veterinário"
-                                                    },
-                                                    "notes": {
-                                                        "type": "string",
-                                                        "example": "Notas sobre a associação"
+                                                        "example": "Meeting agendado para as 10h."
                                                     },
                                                     "createdAt": {
                                                         "type": "string",
-                                                        "format": "date-time",
-                                                        "example": "2024-01-01T12:00:00Z"
-                                                    },
-                                                    "updatedAt": {
-                                                        "type": "string",
-                                                        "format": "date-time",
-                                                        "example": "2024-01-01T12:00:00Z"
+                                                        "example": "2025-03-04"
                                                     }
                                                 }
                                             }
@@ -1424,49 +1054,25 @@
                             }
                         }
                     },
-                    "404": {
-                        "description": "Nenhuma associação encontrada",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Nenhuma associação encontrada"
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                    "204": {
+                        "description": "Nenhum comentario encontrado."
                     },
-                    "500": {
-                        "description": "Erro interno no servidor",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Erro ao buscar associações."
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                    "401": {
+                        "description": "Não autorizado. O token de autenticação é inválido ou não foi fornecido."
                     }
                 }
-            },
+            }
+        },
+        "/tasks/comment": {
             "post": {
-                "summary": "Cria uma nova associação entre especialista e animal",
-                "description": "Este endpoint cria uma nova associação entre um especialista e um animal, verificando se a associação já existe antes de criar uma nova.",
+                "summary": "Cria um comentario sobre tarefa existente",
+                "description": "Usuarios com perfil de 'admin' podem comentar sobre qualquer tarefas, e usuarios com perfil de 'employee' so podem comentar em tarefas das quais estao associados",
                 "tags": [
-                    "Associações: Animais e Especialistas"
+                    "Comments"
                 ],
                 "security": [
                     {
-                        "AuthorizationHeader": []
+                        "BearerAuth": []
                     }
                 ],
                 "requestBody": {
@@ -1476,31 +1082,20 @@
                             "schema": {
                                 "type": "object",
                                 "properties": {
-                                    "expert_id": {
+                                    "taskId": {
                                         "type": "string",
-                                        "description": "ID do especialista",
-                                        "example": "60b2b8f3f4f9c29a12aaf5f6"
+                                        "description": "ID da tarefa",
+                                        "example": "67c5c093333580eed3aeb0d7"
                                     },
-                                    "animal_id": {
+                                    "message": {
                                         "type": "string",
-                                        "description": "ID do animal",
-                                        "example": "60b2b8f3f4f9c29a12aaf5f7"
-                                    },
-                                    "association_type": {
-                                        "type": "string",
-                                        "description": "Tipo de associação",
-                                        "example": "Veterinário"
-                                    },
-                                    "notes": {
-                                        "type": "string",
-                                        "description": "Notas adicionais sobre a associação",
-                                        "example": "Especialista responsável por exames periódicos."
+                                        "description": "Descricao da tarefa",
+                                        "example": "Meeting agendado para as 10h."
                                     }
                                 },
                                 "required": [
-                                    "expert_id",
-                                    "animal_id",
-                                    "association_type"
+                                    "taskId",
+                                    "message"
                                 ]
                             }
                         }
@@ -1508,7 +1103,7 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Associação criada com sucesso",
+                        "description": "Comentario criado com sucesso",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1516,40 +1111,30 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Associação criada com sucesso"
+                                            "example": "Comentario criado com sucesso"
                                         },
                                         "body": {
                                             "type": "object",
                                             "properties": {
                                                 "_id": {
                                                     "type": "string",
-                                                    "example": "60b2b8f3f4f9c29a12aaf5f8"
+                                                    "example": "5f4e3e5e56f5c9bdb3a3f7b8"
                                                 },
-                                                "expert_id": {
+                                                "task": {
                                                     "type": "string",
-                                                    "example": "60b2b8f3f4f9c29a12aaf5f6"
+                                                    "example": "67c5c093333580eed3aeb0d7"
                                                 },
-                                                "animal_id": {
+                                                "user": {
                                                     "type": "string",
-                                                    "example": "60b2b8f3f4f9c29a12aaf5f7"
+                                                    "example": "67c366ccc9f7b87e508e385e"
                                                 },
-                                                "association_type": {
+                                                "message": {
                                                     "type": "string",
-                                                    "example": "Veterinário"
-                                                },
-                                                "notes": {
-                                                    "type": "string",
-                                                    "example": "Especialista responsável por exames periódicos."
+                                                    "example": "Meeting agendado para as 10h."
                                                 },
                                                 "createdAt": {
                                                     "type": "string",
-                                                    "format": "date-time",
-                                                    "example": "2024-01-01T12:00:00Z"
-                                                },
-                                                "updatedAt": {
-                                                    "type": "string",
-                                                    "format": "date-time",
-                                                    "example": "2024-01-01T12:00:00Z"
+                                                    "example": "2025-03-04"
                                                 }
                                             }
                                         }
@@ -1558,259 +1143,14 @@
                             }
                         }
                     },
-                    "409": {
-                        "description": "Conflito - Especialista já associado a este animal",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Este especialista já está associado a este animal."
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Erro interno no servidor",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Erro ao criar associação de especialista com animal."
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/expertsanimal/{id}": {
-            "put": {
-                "summary": "Atualiza uma associação entre especialista e animal",
-                "description": "Este endpoint permite atualizar uma associação existente entre especialista e animal, verificando se a nova associação já existe antes da atualização.",
-                "tags": [
-                    "Associações: Animais e Especialistas"
-                ],
-                "security": [
-                    {
-                        "AuthorizationHeader": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "description": "ID da associação a ser atualizada",
-                        "schema": {
-                            "type": "string",
-                            "example": "60b2b8f3f4f9c29a12aaf5f8"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "expert_id": {
-                                        "type": "string",
-                                        "description": "ID do especialista",
-                                        "example": "60b2b8f3f4f9c29a12aaf5f6"
-                                    },
-                                    "animal_id": {
-                                        "type": "string",
-                                        "description": "ID do animal",
-                                        "example": "60b2b8f3f4f9c29a12aaf5f7"
-                                    },
-                                    "association_type": {
-                                        "type": "string",
-                                        "description": "Tipo de associação",
-                                        "example": "Veterinário"
-                                    },
-                                    "notes": {
-                                        "type": "string",
-                                        "description": "Notas adicionais sobre a associação",
-                                        "example": "Atualização do especialista responsável."
-                                    }
-                                },
-                                "required": [
-                                    "expert_id",
-                                    "animal_id",
-                                    "association_type"
-                                ]
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Associação atualizada com sucesso",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Associação atualizada com sucesso"
-                                        },
-                                        "body": {
-                                            "type": "object",
-                                            "properties": {
-                                                "_id": {
-                                                    "type": "string",
-                                                    "example": "60b2b8f3f4f9c29a12aaf5f8"
-                                                },
-                                                "expert_id": {
-                                                    "type": "string",
-                                                    "example": "60b2b8f3f4f9c29a12aaf5f6"
-                                                },
-                                                "animal_id": {
-                                                    "type": "string",
-                                                    "example": "60b2b8f3f4f9c29a12aaf5f7"
-                                                },
-                                                "association_type": {
-                                                    "type": "string",
-                                                    "example": "Veterinário"
-                                                },
-                                                "notes": {
-                                                    "type": "string",
-                                                    "example": "Atualização do especialista responsável."
-                                                },
-                                                "createdAt": {
-                                                    "type": "string",
-                                                    "format": "date-time",
-                                                    "example": "2024-01-01T12:00:00Z"
-                                                },
-                                                "updatedAt": {
-                                                    "type": "string",
-                                                    "format": "date-time",
-                                                    "example": "2024-01-01T12:00:00Z"
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "409": {
-                        "description": "Conflito - Especialista já associado a este animal",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Este especialista já está associado a este animal."
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Erro interno no servidor",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Erro ao atualizar associação de especialista com animal."
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "summary": "Deleta uma associação entre especialista e animal",
-                "description": "Este endpoint deleta uma associação entre especialista e animal, removendo a associação do banco de dados.",
-                "tags": [
-                    "Associações: Animais e Especialistas"
-                ],
-                "security": [
-                    {
-                        "AuthorizationHeader": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "description": "ID da associação a ser deletada",
-                        "schema": {
-                            "type": "string",
-                            "example": "60b2b8f3f4f9c29a12aaf5f8"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Associação deletada com sucesso",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Associação deletada com sucesso"
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                    "401": {
+                        "description": "Não autorizado. O token de autenticação é inválido ou não foi fornecido."
                     },
                     "404": {
-                        "description": "Associação não encontrada",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Associação não encontrada"
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        "description": "Tarefa nao encontrada"
                     },
                     "500": {
-                        "description": "Erro interno no servidor",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Erro ao deletar associação de especialista com animal."
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        "description": "Erro ao criar usuario"
                     }
                 }
             }
@@ -1818,11 +1158,10 @@
     },
     "components": {
         "securitySchemes": {
-            "AuthorizationHeader": {
-                "type": "apiKey",
-                "in": "header",
-                "name": "Authorization",
-                "description": "Insira apenas o token JWT no cabeçalho Authorization sem o prefixo 'Bearer'."
+            "BearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
             }
         }
     }

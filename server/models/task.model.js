@@ -28,7 +28,7 @@ const taskSchema = new Schema({
     },
     description: {
         type: String,
-        required: [true, 'The description field is required.'],
+        requirattacpriorityhedToed: [true, 'The description field is required.'],
         trim: true, 
         minlength: [5, 'Title must be at least 5 characters long'],
         maxlength: [200, 'Title must be at most 200 characters long']
