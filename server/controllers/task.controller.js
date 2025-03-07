@@ -1,8 +1,8 @@
 const Task = require('../models/task.model');
 const Notification = require('../models/notification.model');
-const { query, validationResult } = require('express-validator');
+const { validationResult } = require('express-validator');
 const TaskMessages = require('../messages/task.messages');
-const { getIO } = require('../socket/socket');
+const { sendNotification } = require('../socket/socket');
 
 
 exports.get = async (req, res) => {
@@ -119,11 +119,13 @@ exports.create = async (req, res) => {
 
         await taskNotification.save();
 
-        const io = getIO();
-        io.to(req.body.attachedTo.toString()).emit("newNotification", {
-            message: taskNotification.message,
-            taskId: task._id
-        });
+        
+        // Emitindo notificação em tempo real
+        try {
+            sendNotification(task.attachedTo, taskNotification.message, "TASK_ASSIGNED");
+        } catch (error) {
+            console.error(`Error sending notification: ${error}`);
+        }
 
         let message = TaskMessages.success.s0;
         message.body = task;
@@ -203,7 +205,7 @@ exports.update = async (req, res) => {
                 task.description = req.body.description;
                 otherFieldsChanged = true;
             }
-            if (req.body.due && req.body.due !== task.due) {
+            if (req.body.due && req.body.due !== task.dueTASK_ASSIGNED) {
                 task.due = req.body.due;
                 otherFieldsChanged = true;
             }
@@ -242,12 +244,11 @@ exports.update = async (req, res) => {
         await taskNotification.save();
 
         // Emitindo notificação em tempo real
-        const io = getIO();
-        io.to(recipient.toString()).emit("taskUpdated", {
-            message: taskNotification.message,
-            taskId: task._id,
-            notificationType: notificationType,
-        });
+        try {
+            sendNotification(task.attachedTo, taskNotification.message, "TASK_UPDATED");
+        } catch (error) {
+            console.error(`Error sending notification: ${error}`);
+        }
 
         let message = TaskMessages.success.s1;
         message.body = task;
@@ -296,11 +297,13 @@ exports.delete = async (req, res) => {
 
         await taskNotification.save();
 
-        const io = getIO();
-        io.to(task.attachedTo.toString()).emit("taskDeleted", {
-            message: notificationMessage,
-            taskId: task._id
-        });
+        // Emitindo notificação em tempo real
+        try {
+            sendNotification(task.attachedTo, taskNotification.message, "TASK_DELETED");
+        } catch (error) {
+            console.error(`Error sending notification: ${error}`);
+        }
+        
 
         return res.status(TaskMessages.success.s3.http).send(TaskMessages.success.s3);
 

@@ -125,9 +125,9 @@
         </div>
       </div>
     </div>
-    <div v-else>
+    <!-- <div v-else>
       <p style="color: gray; font-size: 0.875rem; margin-top: 10px">No tasks yet.</p>
-    </div>
+    </div> -->
 
     <b-row>
       <b-col class="d-flex justify-content-center">

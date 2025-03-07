@@ -46,9 +46,9 @@
           </div>
         </div>
       </div>
-      <div v-else>
+      <!-- <div v-else>
         <p style="color: gray; font-size: 0.875rem; margin-top: 10px">No users yet.</p>
-      </div>
+      </div> -->
     </div>
 
     <b-row>
