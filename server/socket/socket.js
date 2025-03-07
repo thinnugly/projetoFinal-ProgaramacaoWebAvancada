@@ -3,13 +3,21 @@ const { Server } = require("socket.io");
 let io;
 
 const setupSocket = (server) => {
-    io = new Server(server, { cors: { origin: "*" } });
+    io = new Server(server, {
+        cors: {
+            origin: "*", 
+            methods: ["GET", "POST"],
+            allowedHeaders: ["Authorization"],
+            credentials: true
+        }
+    });
 
     io.on("connection", (socket) => {
         console.log("User connected:", socket.id);
 
         socket.on("register", (userId) => {
             socket.join(userId);
+            console.log(`User ${socket.id} joined room ${userId}`);
         });
 
         socket.on("disconnect", () => {
