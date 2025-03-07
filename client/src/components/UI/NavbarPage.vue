@@ -111,7 +111,7 @@
         const userId = this.getProfile?._id;
         if (!userId) return;
   
-        this.socket = io("http://localhost:3000", {
+        this.socket = io("https://projetofinal-progaramacaowebavancada.onrender.com", {
           auth: { userId }, 
         });
   
