@@ -13,10 +13,10 @@ const { setupSocket } = require('./socket/socket');
 const server = createServer(app);
 const { io } = setupSocket(server);
 
-app.use('/public', express.static(path.join(__dirname, 'public')));
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+// Serve arquivos estáticos do frontend
+app.use(express.static(path.join(__dirname, 'client', 'dist')));
 
+// Serve as rotas da API
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Conectar ao banco de dados e iniciar servidor
@@ -25,8 +25,12 @@ connectDB().then(() => {
     require('./init/routes')(app);
     createAdminUser();
 
-    // Agora o WebSocket e o Express compartilham o mesmo servidor
     server.listen(PORT, () => {
         console.log(`Server is running at http://localhost:${PORT}`);
     });
+});
+
+// Redireciona todas as outras rotas para o index.html da SPA
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
 });
