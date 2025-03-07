@@ -5,7 +5,7 @@ let io;
 const setupSocket = (server) => {
     io = new Server(server, {
         cors: {
-            origin: "*", 
+            origin: "https://frontend-task-management-rmm-devwn.onrender.com", 
             methods: ["GET", "POST"],
             allowedHeaders: ["Authorization"],
             credentials: true
