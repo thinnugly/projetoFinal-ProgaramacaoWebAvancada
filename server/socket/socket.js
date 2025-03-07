@@ -5,10 +5,13 @@ let io;
 const setupSocket = (server) => {
     io = new Server(server, {
         cors: {
-            origin: "https://frontend-task-management-rmm-devwn.onrender.com", 
+            origin: [
+                "http://localhost:8080",  // Para testes locais
+                "https://frontend-task-management-rmm-devwn.onrender.com"  // Frontend na Render
+            ],
             methods: ["GET", "POST"],
-            allowedHeaders: ["Authorization"],
-            credentials: true
+            allowedHeaders: ["Authorization", "Content-Type"],
+            credentials: true  
         }
     });
 
