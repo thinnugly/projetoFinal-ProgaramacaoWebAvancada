@@ -13,7 +13,7 @@ const { setupSocket } = require('./socket/socket');
 const server = createServer(app);
 const { io } = setupSocket(server);
 
-app.use('/assets', express.static(path.join(__dirname, 'assets')));
+app.use('/public', express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
