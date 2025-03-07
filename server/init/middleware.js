@@ -6,7 +6,7 @@ module.exports = (app) => {
     const allowedOrigins = [
         "http://localhost:8080",
         "https://frontend-task-management-rmm-devwn.onrender.com",
-        "https://taskmanagement-rmm-devwn.netlify.app/",
+        "https://taskmanagement-rmm-devwn.netlify.app",
     ];
 
     app.use(cors({
