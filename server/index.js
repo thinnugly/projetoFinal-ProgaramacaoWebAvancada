@@ -13,6 +13,14 @@ const { setupSocket } = require('./socket/socket');
 const server = createServer(app);
 const { io } = setupSocket(server);
 
+// Middleware para definir o tipo MIME correto para arquivos JavaScript
+app.use((req, res, next) => {
+    if (req.url.endsWith('.js')) {
+        res.setHeader('Content-Type', 'application/javascript');
+    }
+    next();
+});
+
 // Servir arquivos estáticos da pasta 'public'
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
