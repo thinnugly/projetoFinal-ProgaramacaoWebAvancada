@@ -34,7 +34,7 @@
                               </div>
                           </a>
                       </template>
-                      <span v-else class="dropdown-item text-muted">Sem notificações</span>
+                      <span v-else class="dropdown-item text-muted">Without notifications</span>
                   </div>
               </div>
 
@@ -141,8 +141,8 @@ export default {
       // },
   },
   created() {
-      this.fetchNotifications();
-      this.connectSocket();
+      // this.fetchNotifications();
+      // this.connectSocket();
   },
   beforeUnmount() {
       if (this.socket) {
