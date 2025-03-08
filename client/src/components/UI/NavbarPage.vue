@@ -61,7 +61,7 @@
 import { AUTH_LOGOUT } from "@/store/modules/auth.module.js";
 import { mapGetters } from "vuex";
 import router from "@/router";
-import { io } from "socket.io-client";
+// import { io } from "socket.io-client";
 
 export default {
   name: "NavbarPage",
@@ -113,32 +113,32 @@ export default {
                   });
               });
       },
-      async fetchNotifications() {
-          try {
-              const response = await this.$http.get("/notifications");
-              this.notifications = response.data;
-          } catch (error) {
-              console.error("Error fetching notifications:", error);
-          }
-      },
-      markNotificationsAsRead() {
-          this.notifications = this.notifications.map(notification => ({
-              ...notification,
-              read: true,
-          }));
-      },
-      connectSocket() {
-          const userId = this.getProfile?._id;
-          if (!userId) return;
+      // async fetchNotifications() {
+      //     try {
+      //         const response = await this.$http.get("/notifications");
+      //         this.notifications = response.data;
+      //     } catch (error) {
+      //         console.error("Error fetching notifications:", error);
+      //     }
+      // },
+      // markNotificationsAsRead() {
+      //     this.notifications = this.notifications.map(notification => ({
+      //         ...notification,
+      //         read: true,
+      //     }));
+      // },
+      // connectSocket() {
+      //     const userId = this.getProfile?._id;
+      //     if (!userId) return;
 
-          this.socket = io("https://projetofinal-progaramacaowebavancada.onrender.com", {
-              auth: { userId },
-          });
+      //     this.socket = io("https://projetofinal-progaramacaowebavancada.onrender.com", {
+      //         auth: { userId },
+      //     });
 
-          this.socket.on("newNotification", (data) => {
-              this.notifications.unshift(data);
-          });
-      },
+      //     this.socket.on("newNotification", (data) => {
+      //         this.notifications.unshift(data);
+      //     });
+      // },
   },
   created() {
       this.fetchNotifications();
