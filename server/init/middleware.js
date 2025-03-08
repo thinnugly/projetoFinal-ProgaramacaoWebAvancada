@@ -3,18 +3,20 @@ module.exports = (app) => {
     const bodyParser = require('body-parser');
     const cors = require('cors');
 
+    // Lista de origens permitidas
     const allowedOrigins = [
-        "http://localhost:8080",
-        "https://frontend-task-management-rmm-devwn.onrender.com",
-        "https://taskmanagement-rmm-devwn.netlify.app",
+        "http://localhost:8080", // Frontend local
+        "https://taskmanagement-rmm-devwn.netlify.app", // Frontend em produção
+        "http://localhost:3000", // Swagger UI local
+        "https://projetofinal-progaramacaowebavancada.onrender.com", // Swagger UI em produção
     ];
 
     app.use(cors({
         origin: (origin, callback) => {
             if (!origin || allowedOrigins.includes(origin)) {
-                callback(null, true);
+                callback(null, true); 
             } else {
-                callback(new Error("Not allowed by CORS"));
+                callback(new Error(`The origin ${origin} is not allowed by the CORS.`));
             }
         },
         methods: "GET, POST, OPTIONS, PUT, PATCH, DELETE",
@@ -22,11 +24,6 @@ module.exports = (app) => {
         exposedHeaders: "Authorization, Language, Location",
         credentials: true
     }));
-
-    app.use((req, res, next) => {
-        res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-        next();
-    });
 
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());

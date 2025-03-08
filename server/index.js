@@ -13,14 +13,6 @@ const { setupSocket } = require('./socket/socket');
 const server = createServer(app);
 const { io } = setupSocket(server);
 
-// Middleware para definir o tipo MIME correto para arquivos JavaScript
-app.use((req, res, next) => {
-    if (req.url.endsWith('.js')) {
-        res.setHeader('Content-Type', 'application/javascript');
-    }
-    next();
-});
-
 // Servir arquivos estáticos da pasta 'public'
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
@@ -36,14 +28,6 @@ connectDB().then(() => {
     require('./init/middleware')(app);
     require('./init/routes')(app);
     createAdminUser();
-
-    // Servir arquivos estáticos da aplicação cliente (SPA)
-    app.use(express.static(path.join(__dirname, '../client', 'dist')));
-
-    // Redirecionar todas as outras rotas para o index.html da SPA
-    app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, '../client', 'dist', 'index.html'));
-    });
 
     // Iniciar o servidor
     server.listen(PORT, () => {
