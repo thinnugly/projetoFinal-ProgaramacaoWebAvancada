@@ -2,9 +2,9 @@ const Task = require('../models/task.model');
 const Notification = require('../models/notification.model');
 const { validationResult } = require('express-validator');
 const TaskMessages = require('../messages/task.messages');
-const { getIO } = require('../socket/socket');
 const Comment = require('../models/comment.model');
 const CommentMessages = require('../messages/comment.messages');
+const { sendNotification } = require('../socket/socket');
 
 
 exports.get = async (req, res) => {
@@ -92,6 +92,13 @@ exports.create = async (req, res) => {
             message: `New comment on task "${task.title}"`,
             taskId: task._id,
         });
+
+        // Emitindo notificação em tempo real
+        try {
+            sendNotification(task.attachedTo, `New comment on task "${task.title}"`, "COMMENT_PUBLISHED");
+        } catch (error) {
+            console.error(`Error sending notification: ${error}`);
+        }
 
         const messageR = CommentMessages.success.s0;
         messageR.body = comment; 
