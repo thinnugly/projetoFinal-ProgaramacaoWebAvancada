@@ -36,9 +36,9 @@ MONGO_URI=
 npm run start 
 ```
 
-**Localmente o backend será iniciado em http://localhost:3000/**
-**Backend em produção: https://projetofinal-progaramacaowebavancada.onrender.com**
-**Documentação da API: https://projetofinal-progaramacaowebavancada.onrender.com/api-docs**
+- Localmente o backend será iniciado em http://localhost:3000/
+- Backend em produção: https://projetofinal-progaramacaowebavancada.onrender.com
+- Documentação da API: https://projetofinal-progaramacaowebavancada.onrender.com/api-docs
 
 ### Gerenciamento de usuários
 
@@ -68,5 +68,5 @@ BASE_URL=/app/
 ```sh
 npm run serve 
 ```
-** Localmente frontend será iniciado em http://localhost:8080/
-Frontend em produção: https://taskmanagement-rmm-devwn.netlify.app **
+- Localmente frontend será iniciado em http://localhost:8080/
+- Frontend em produção: https://taskmanagement-rmm-devwn.netlify.app
