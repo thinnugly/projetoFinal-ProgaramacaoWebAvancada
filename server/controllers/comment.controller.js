@@ -85,14 +85,6 @@ exports.create = async (req, res) => {
         });
         await notification.save();
 
-        const io = getIO();
-        const recipientId = recipient.toString(); 
-
-        io.to(recipientId).emit("newNotification", {
-            message: `New comment on task "${task.title}"`,
-            taskId: task._id,
-        });
-
         // Emitindo notificação em tempo real
         try {
             sendNotification(task.attachedTo, `New comment on task "${task.title}"`, "COMMENT_PUBLISHED");
