@@ -36,15 +36,15 @@ MONGO_URI=
 npm run start 
 ```
 
-** Localmente o backend será iniciado em http://localhost:3000/
-Backend em produção: https://projetofinal-progaramacaowebavancada.onrender.com
-Documentação da API: https://projetofinal-progaramacaowebavancada.onrender.com/api-docs **
+**Localmente o backend será iniciado em http://localhost:3000/**
+**Backend em produção: https://projetofinal-progaramacaowebavancada.onrender.com**
+**Documentação da API: https://projetofinal-progaramacaowebavancada.onrender.com/api-docs**
 
 ### Gerenciamento de usuários
 
 O sistema permite a criação e gerenciamento de usuários do tipo "Employee". Apenas um usuário administrador pode criar usuários de qualquer tipo e associá-los a tarefas. Um administrador é criado automaticamente na primeira execução da aplicação, caso ainda não exista.
 
-** Credenciais do Administrador Padrão **:
+**Credenciais do Administrador Padrão**:
 
 - Username: renatomuiambo24@admin.com
 
