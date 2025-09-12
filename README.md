@@ -1,48 +1,58 @@
-# Projeto Final - Um sistema de gestão de tarefas, utilizadores, comentários e notificações, para facilitar o acompanhamento de atividades no ambiente organizacional, garantindo que os utilizadores estejam informados sobre alterações importantes, como atribuição de tarefas, alterações no estado das mesmas ou adição de comentários.
-**Autor**: Renato Madeia Muiambo
+# Final Project - Task Management System
+
+A task management system for managing tasks, users, comments, and notifications, facilitating activity tracking in an organizational environment, ensuring that users are informed about important changes, such as task assignments, status updates, or added comments.
+
+**Author**: Renato Madeia Muiambo  
 **Email**: renatomuiambo24@gmail.com
-## 📌 Pré-requisitos
-
-Antes de iniciar, certifique-se de ter instalado:  
-
-- [Node.js](https://nodejs.org/) (versão 18 ou superior)  
-- [Vue 3](https://vuejs.org/)  
-- Git (opcional)  
 
 ---
 
-## 🔧 Como Rodar a Aplicação  
+## 📌 Prerequisites
+
+Before starting, ensure the following are installed:  
+
+- [Node.js](https://nodejs.org/) (version 18 or higher)  
+- [Vue 3](https://vuejs.org/) 
+
+---
+
+## 🔧 How to Run the Application
+
 ### 🖥️ Backend (Node.js + Express)
-1️⃣ **Instalar o Node.js** (se ainda não tiver instalado)  
-   - No Windows: [Baixe e instale](https://nodejs.org/)  
-   - No Linux/macOS: Execute no terminal:  
-     ```sh
+
+1️⃣ **Install Node.js** (if not installed)  
+
+- Windows: [Download and install](https://nodejs.org/)  
+- Linux/macOS: Run in terminal:  
+   ```sh
      curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
      sudo apt-get install -y nodejs
      ```
-
-2️⃣ No diretório do backend (server), instalar as dependências:  
+   
+2️⃣ Navigate to the backend directory (server) and install dependencies:
 
 ```sh
 npm install
 ```
-3️⃣ Criar um arquivo .env e configurar as seguintes variáveis de ambiente:
+3️⃣ Create a .env file and set the following environment variables:
 ```sh
 PORT=
 MONGO_URI=
 ```
-4️⃣ Rodar o backend:
+4️⃣ Run the backend:
 ```sh
 npm run start 
 ```
 
-- Localmente o backend será iniciado em http://localhost:3000/
-- Backend em produção: https://projetofinal-progaramacaowebavancada.onrender.com
-- Documentação da API: https://projetofinal-progaramacaowebavancada.onrender.com/api-docs
+- Local backend http://localhost:3000/
+- Production backend: https://projetofinal-progaramacaowebavancada.onrender.com
+- API documentation: https://projetofinal-progaramacaowebavancada.onrender.com/api-docs
 
-### Gerenciamento de usuários
+### User Management
 
-O sistema permite a criação e gerenciamento de usuários do tipo "Employee". Apenas um usuário administrador pode criar usuários de qualquer tipo e associá-los a tarefas. Um administrador é criado automaticamente na primeira execução da aplicação, caso ainda não exista.
+The system allows creation and management of "Employee" users. Only an administrator can create users of any type and assign tasks.
+An administrator is created automatically on the first run if it does not exist.
+Default Administrator Credentials:
 
 **Credenciais do Administrador Padrão**:
 
@@ -51,22 +61,22 @@ O sistema permite a criação e gerenciamento de usuários do tipo "Employee". A
 - Password: admin@admin
 
 ### 🎨 Frontend (Vue)
-1️⃣ **Instalar o Vue ** (se ainda não tiver instalado):
-  - No Windows/Linux/macOS: Execute:
+1️⃣ **Install Vue ** (if not installed):
+  - Windows/Linux/macOS: Execute:
      ```sh
      npm create vue@latest
      ```
-2️⃣ No diretório do frontend (client), instalar as dependências:
+2️⃣ Navigate to the frontend directory (client) and install dependencies:
 ```sh
 npm install
 ```
-3️⃣ Criar um arquivo .env e configurar as seguintes variáveis de ambiente:
+3️⃣ Create a .env file and configure environment variable:
 ```sh
 BASE_URL=/app/
 ```
-4️⃣ Rodar o frontend:
+4️⃣ Run the frontend:
 ```sh
 npm run serve 
 ```
-- Localmente frontend será iniciado em http://localhost:8080/
-- Frontend em produção: https://taskmanagement-rmm-devwn.netlify.app
+- Local frontend: http://localhost:8080/
+- Production frontend: https://taskmanagement-rmm-devwn.netlify.app
