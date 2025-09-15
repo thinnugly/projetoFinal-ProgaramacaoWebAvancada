@@ -12,7 +12,8 @@ A task management system for managing tasks, users, comments, and notifications,
 Before starting, ensure the following are installed:  
 
 - [Node.js](https://nodejs.org/) (version 18 or higher)  
-- [Vue 3](https://vuejs.org/) 
+- [Vue 3](https://vuejs.org/)
+- [MongoDB](https://www.mongodb.com/) (ensure MongoDB server is running locally or use a cloud instance, e.g., MongoDB Atlas)
 
 ---
 
