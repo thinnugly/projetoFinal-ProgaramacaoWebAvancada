@@ -62,20 +62,15 @@ Default Administrator Credentials:
 - Password: admin@admin
 
 ### 🎨 Frontend (Vue)
-1️⃣ **Install Vue ** (if not installed):
-  - Windows/Linux/macOS: Execute:
-     ```sh
-     npm create vue@latest
-     ```
-2️⃣ Navigate to the frontend directory (client) and install dependencies:
+1️⃣ Navigate to the frontend directory (client) and install dependencies:
 ```sh
 npm install
 ```
-3️⃣ Create a .env file and configure environment variable:
+2️⃣ Create a .env file and configure environment variable:
 ```sh
 BASE_URL=/app/
 ```
-4️⃣ Run the frontend:
+3️⃣ Run the frontend:
 ```sh
 npm run serve 
 ```

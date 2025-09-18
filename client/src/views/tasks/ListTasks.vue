@@ -247,7 +247,10 @@ export default {
       }
     },
     formatDueDate(dueDate) {
-      return format(new Date(dueDate), "MMM, d. yyyy");
+      if (!dueDate) return "No due date"; 
+      const parsedDate = new Date(dueDate);
+      if (isNaN(parsedDate)) return "Invalid date";
+      return format(parsedDate, "MMM, d. yyyy");
     },
     getUserName() {
       return (userId) => {
