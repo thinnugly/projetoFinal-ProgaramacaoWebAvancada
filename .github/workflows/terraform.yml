@@ -11,34 +11,21 @@ jobs:
         defaults:
             run:
                 working-directory: infra
+        env:
+            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+            AWS_REGION: ${{ secrets.AWS_REGION }}
         steps:
             - name: Checkout Code
               uses: actions/checkout@v4
-
-            - name: Configure AWS Credentials
-              run: |
-                aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}  --profile node_api
-                aws configure set aws_secret_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}  --profile node_api
-                aws configure set region ${{ secrets.AWS_REGION }} --profile node_api
-                aws configure set output json --profile node_api
-
             - name: Terraform Setup
               uses: hashicorp/setup-terraform@v2
               with:
                 terraform_version: 1.7.5
-
             - name: Terraform Init
               run: terraform init
-              env:
-                AWS_PROFILE: node_api
-
             - name: Terraform Plan
               run: terraform plan
-              env:
-                AWS_PROFILE: node_api
-
             - name: Terraform Apply
               if: github.ref == 'refs/heads/main'
               run: terraform apply --auto-approve
-              env:
-                AWS_PROFILE: node_api

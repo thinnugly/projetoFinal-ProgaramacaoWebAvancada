@@ -1,5 +1,4 @@
 provider "aws" {
-  profile = "node_api"
   region = "us-east-1"
 
   default_tags {
