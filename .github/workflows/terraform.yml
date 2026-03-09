@@ -1,0 +1,37 @@
+name: Terraform Infra Deploy
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    terraform:
+        runs-on: ubuntu-latest
+        defaults:
+            run:
+                working-directory: ../../infra
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v4
+
+            - name: Terraform Setup
+              uses: hashicorp/setup-terraform@v2
+              with:
+                terraform_version: 1.7.5
+
+            - name: Terraform Init
+              run: terraform init
+              env:
+                AWS_PROFILE: node_api
+
+            - name: Terraform Plan
+              run: terraform plan
+              env:
+                AWS_PROFILE: node_api
+
+            - name: Terraform Apply
+              if: github.ref == 'refs/heads/main'
+              run: terraform apply --auto-approve
+              env:
+                AWS_PROFILE: node_api

@@ -1,0 +1,25 @@
+version: "3.9"
+services:
+  mongo:
+    restart: always
+    image: mongo:7
+    container_name: mongodb
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - "27017:27017"
+  backend:
+    restart: always
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.backend
+    container_name: node_api
+    env_file:
+      - server/.env.dev
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+
+volumes:
+  mongo_data:
