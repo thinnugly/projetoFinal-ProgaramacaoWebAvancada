@@ -4,7 +4,6 @@ terraform {
     key = "infra/terraform.tfstate"
     region = "us-east-1"
     dynamodb_table = "devwn-terraform-lock"
-    profile = "node_api"
     encrypt = true
   }
 }

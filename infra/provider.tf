@@ -1,5 +1,5 @@
 provider "aws" {
-  profile = "node_api"
+  profile = var.aws_profile != "" ? var.aws_profile : null
   region = "us-east-1"
 
   default_tags {
